@@ -33,10 +33,6 @@ public class MemberController {
         String email = memberLoginRequest.getEmail();
 
         try{
-            if(name.equals("throwError")){ // 예외 처리 테스트용 코드
-                throw new NotValidatedValueException();
-            }
-
             long memberId = 1; //  테스트용 임의의 멤버 Id입니다.
             // todo long memberId = 나중에 데이터베이스에서 가져올 것
             String accessToken = authService.generateAccessToken(memberId);
@@ -46,15 +42,7 @@ public class MemberController {
                     .header("Authorization", "Bearer "+ accessToken)
                     .header("Refresh-Token",refreshToken)
                     .body(new MemberLoginResponse(memberId));
-
-
-        } catch (NotValidatedValueException e) {
-            logger.info("로그인 실패 : " + e);
-            return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
-                    .body(new ErrorResponse("NotValidatedValueException", "request 값의 형태가 올바르지 않습니다"));
-
-        } catch (Exception e){
+        }  catch (Exception e){
             logger.error("로그인 실패" + e);
 
             return ResponseEntity
