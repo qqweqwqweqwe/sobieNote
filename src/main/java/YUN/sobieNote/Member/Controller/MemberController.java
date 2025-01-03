@@ -1,5 +1,6 @@
 package YUN.sobieNote.Member.Controller;
 
+import YUN.sobieNote.Auth.Service.AuthService;
 import YUN.sobieNote.Global.Exception.ErrorResponse;
 import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import YUN.sobieNote.Member.DTO.MemberLoginResponse;
@@ -12,13 +13,15 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
+@RequestMapping("/member")
 public class MemberController {
 
     private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
+    private final AuthService authService = new AuthService();
 
     @PostMapping("/login")
     @ResponseBody
@@ -29,7 +32,6 @@ public class MemberController {
         String name = memberLoginRequest.getName();
         String email = memberLoginRequest.getEmail();
 
-
         try{
             if(name.equals("throwError")){ // 예외 처리 테스트용 코드
                 throw new NotValidatedValueException();
@@ -37,9 +39,14 @@ public class MemberController {
 
             long memberId = 1; //  테스트용 임의의 멤버 Id입니다.
             // todo long memberId = 나중에 데이터베이스에서 가져올 것
+            String accessToken = authService.generateAccessToken(memberId);
+            String refreshToken = authService.generateRefreshToken(memberId);
             logger.info("로그인 성공 name : " + name + " email : " + email + "memberId : " + memberId);
+            return ResponseEntity.ok()
+                    .header("Authorization", "Bearer "+ accessToken)
+                    .header("Refresh-Token",refreshToken)
+                    .body(new MemberLoginResponse(memberId));
 
-            return ResponseEntity.ok(new MemberLoginResponse(memberId));
 
         } catch (NotValidatedValueException e) {
             logger.info("로그인 실패 : " + e);

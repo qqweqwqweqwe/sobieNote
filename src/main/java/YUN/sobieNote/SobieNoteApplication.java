@@ -1,6 +1,7 @@
 package YUN.sobieNote;
 
 import YUN.sobieNote.Member.Controller.MemberController;
+import io.github.cdimascio.dotenv.Dotenv;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
@@ -21,13 +22,8 @@ public class SobieNoteApplication {
 		ApplicationContext context = SpringApplication.run(SobieNoteApplication.class, args);
 
 		// Environment 객체로 application.properties 값 가져오기
-		Environment env = context.getEnvironment();
-
-		// application.properties의 값 출력
-		String serverPort = env.getProperty("server.port");
-
-		String localhost = "http://localhost:" + serverPort;
-		logger.info("server start at :  " + localhost);
+		logger.info("Main Start");
+		logger.info("server start at :  http://localhost:8080");
 
 
 	}
