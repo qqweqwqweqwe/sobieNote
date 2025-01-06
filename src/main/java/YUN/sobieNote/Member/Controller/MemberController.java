@@ -6,6 +6,8 @@ import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import YUN.sobieNote.Member.DTO.MemberLoginResponse;
 import YUN.sobieNote.Member.Exception.NotValidatedValueException;
 import jakarta.validation.Valid;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
@@ -15,20 +17,19 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-
+@RequiredArgsConstructor
 @Controller
 @RequestMapping("/member")
+@Slf4j
 public class MemberController {
 
-    private static final Logger logger = LoggerFactory.getLogger(MemberController.class);
-    private final AuthService authService = new AuthService();
+    private final AuthService authService;
 
     @PostMapping("/login")
     @ResponseBody
     public ResponseEntity<?> login(
             @Valid
             @RequestBody MemberLoginRequest memberLoginRequest){
-        logger.info("로그인 시도");
         String name = memberLoginRequest.getName();
         String email = memberLoginRequest.getEmail();
 
@@ -37,13 +38,11 @@ public class MemberController {
             // todo long memberId = 나중에 데이터베이스에서 가져올 것
             String accessToken = authService.generateAccessToken(memberId);
             String refreshToken = authService.generateRefreshToken(memberId);
-            logger.info("로그인 성공 name : " + name + " email : " + email + "memberId : " + memberId);
             return ResponseEntity.ok()
                     .header("Authorization", "Bearer "+ accessToken)
                     .header("Refresh-Token",refreshToken)
                     .body(new MemberLoginResponse(memberId));
         }  catch (Exception e){
-            logger.error("로그인 실패" + e);
 
             return ResponseEntity
                     .status(HttpStatus.INTERNAL_SERVER_ERROR)
