@@ -1,6 +1,7 @@
 package YUN.sobieNote.Member.Controller;
 
 import YUN.sobieNote.Auth.Service.AuthService;
+import YUN.sobieNote.Auth.Service.JwtTokenProvider;
 import YUN.sobieNote.Global.Exception.ErrorResponse;
 import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import YUN.sobieNote.Member.DTO.MemberLoginResponse;
@@ -20,10 +21,9 @@ import org.springframework.web.bind.annotation.ResponseBody;
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/member")
-@Slf4j
 public class MemberController {
 
-    private final AuthService authService;
+    private final JwtTokenProvider jwtTokenProvider;
 
     @PostMapping("/login")
     @ResponseBody
@@ -34,10 +34,11 @@ public class MemberController {
         String email = memberLoginRequest.getEmail();
 
         try{
-            long memberId = 1; //  테스트용 임의의 멤버 Id입니다.
+            long memberId = 1; //  테스트용 임의의 멤버 Id입니다. 나중에는 데이터베이스에서 가져올 것
+
             // todo long memberId = 나중에 데이터베이스에서 가져올 것
-            String accessToken = authService.generateAccessToken(memberId);
-            String refreshToken = authService.generateRefreshToken(memberId);
+            String accessToken = jwtTokenProvider.generateAccessToken(name);
+            String refreshToken = jwtTokenProvider.generateRefreshToken(name);
             return ResponseEntity.ok()
                     .header("Authorization", "Bearer "+ accessToken)
                     .header("Refresh-Token",refreshToken)

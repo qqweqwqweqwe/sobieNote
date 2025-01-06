@@ -2,6 +2,7 @@ package YUN.sobieNote.Auth.Service;
 
 import YUN.sobieNote.Config.DotenvConfig;
 import io.github.cdimascio.dotenv.Dotenv;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwt;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -21,30 +22,46 @@ import java.util.Date;
 public class JwtTokenProvider {
 
     private final Dotenv dotenv;
-    private final int accessTokenExpirationTime;
-    private final int refreshTokenExpirationTime;
+    private final int ACCESS_TOKEN_EXPIRATION_TIME;
+    private final int REFRESH_TOKEN_EXPIRATION_TIME;
     private final String JWT_SECRET_KEY;
 
     public JwtTokenProvider(){
         dotenv = DotenvConfig.getInstance();
-        accessTokenExpirationTime = 3600;
-        refreshTokenExpirationTime = 99999999; //todo 적당한 걸로 바꾸기
+        ACCESS_TOKEN_EXPIRATION_TIME = 3600;
+        REFRESH_TOKEN_EXPIRATION_TIME = 99999999; //todo 적당한 걸로 바꾸기
         JWT_SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
 
     }
 
-    public String generareToken(long memeberid){
-
-        memeberid = 1; // 테스트용
+    public String generateAccessToken(String userName){
+        userName = "k0789789"; // 테스트용
         Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
-
+        Claims claims = Jwts.claims();
+        claims.put("userName", userName);
         return Jwts.builder()
-                .setSubject(String.valueOf(memeberid))
+                .setClaims(claims)
+                .setSubject(userName)
                 .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + accessTokenExpirationTime))
+                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(key)
                 .compact();
 
+    }
+
+    public String generateRefreshToken(String userName){
+        userName = "k0789789"; // 테스트용
+        Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+        Claims claims = Jwts.claims();
+        claims.put("userName", userName);
+        return Jwts.builder()
+                .setClaims(claims)
+                .setSubject(userName)
+                .setIssuedAt(new Date())
+                .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION_TIME))
+                .signWith(key)
+                .compact();
 
     }
+
 }
