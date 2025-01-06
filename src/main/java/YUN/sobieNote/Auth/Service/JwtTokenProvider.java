@@ -2,10 +2,7 @@ package YUN.sobieNote.Auth.Service;
 
 import YUN.sobieNote.Config.DotenvConfig;
 import io.github.cdimascio.dotenv.Dotenv;
-import io.jsonwebtoken.Claims;
-import io.jsonwebtoken.Jwt;
-import io.jsonwebtoken.Jwts;
-import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.*;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.io.Encoder;
 import io.jsonwebtoken.io.Encoders;
@@ -61,6 +58,33 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(System.currentTimeMillis() + REFRESH_TOKEN_EXPIRATION_TIME))
                 .signWith(key)
                 .compact();
+
+    }
+
+    public boolean isValidToken(String token){
+        Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+
+        try {
+            Claims claims = Jwts.parserBuilder()
+                    .setSigningKey(key)
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+            Date expiration = claims.getExpiration();
+
+            // 토큰이 만료 되었으면
+            if (expiration.before(new Date())) {
+                throw new ExpiredJwtException(null, claims, "토큰이 만료되었습니다");
+            }
+
+            return true;
+
+        }catch (Exception e){
+
+            // 로그 쌓기
+            return false;
+
+        }
 
     }
 
