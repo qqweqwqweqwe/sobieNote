@@ -26,7 +26,7 @@ public class SecurityConfig {
                 )
                 .authorizeHttpRequests(authorize -> authorize
                         .requestMatchers("/member/login").permitAll()
-                        .anyRequest().denyAll()
+                        .anyRequest().authenticated()
                 )
 //                .exceptionHandling(exceptionalHandling -> exceptionalHandling
 //                        .accessDeniedHandler()
