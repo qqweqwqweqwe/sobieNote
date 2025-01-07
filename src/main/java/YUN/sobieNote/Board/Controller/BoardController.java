@@ -1,6 +1,7 @@
 package YUN.sobieNote.Board.Controller;
 
 
+import YUN.sobieNote.Board.DTO.BoardPatchResponse;
 import YUN.sobieNote.Board.DTO.BoardPostResponse;
 import YUN.sobieNote.Board.DTO.BoardRequest;
 import jakarta.servlet.http.HttpServletRequest;
@@ -32,12 +33,11 @@ public class BoardController {
 
     @PatchMapping("/posting/{boardId}")
     @ResponseBody
-    public ResponseBody<BoardPatchResponse>patchPost(
+    public ResponseEntity<BoardPatchResponse>patchPost(
             @PathVariable long boardId,
             @RequestBody BoardRequest request
             ){
-
         return  ResponseEntity.ok()
-                .body()
+                .body(new BoardPatchResponse("result", "msg", true));
     }
 }
