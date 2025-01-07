@@ -29,27 +29,36 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
         String userName = "";
         String token = "";
+        System.out.println("dasd");
+        try {
+            // 토큰 파싱
+            if (authorization != null && authorization.startsWith("Bearer ")) { // Bearer 토큰 파싱
+                token = authorization.substring(7); // jwt token 파싱
+            } else {
+                throw new Exception("토큰이 없습니다");
+            }
 
-        if (authorization != null && authorization.startsWith("Bearer ")) { // Bearer 토큰 파싱
-            token = authorization.substring(7); // jwt token 파싱
-            userName = jwtTokenProvider.getUserNameFromToken(token);
-        } else {
-            filterChain.doFilter(request, response); // 이거 뭔지 검색 ㄱ
+            // userName 파싱
+            if (jwtTokenProvider.isValidToken(token)) {
+                userName = jwtTokenProvider.getUserNameFromToken(token);
+            } else {
+                throw new Exception("토큰이 유효하지 않습니다");
+            }
+
+            if (userName != null && SecurityContextHolder.getContext().getAuthentication() == null) { //SecurityContextHolder.getContext().getAuthentication() 통해서 반환되는 객체는 토큰을 통해서 실행
+
+                UserDetails userDetails = userDetailService.loadUserByUsername(userName);
+                UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
+                        userDetails, null, userDetails.getAuthorities()
+                );
+                SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
+            }
+
         }
-
-        if(userName!=null && SecurityContextHolder.getContext().getAuthentication()==null){ //SecurityContextHolder.getContext().getAuthentication() 통해서 반환되는 객체는 토큰을 통해서 실행
-            // 여기서 예외처리 들어가줘야함
-
-            UserDetails userDetails = userDetailService.loadUserByUsername(userName);
-            // 이것도 통과하면
-            UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken = new UsernamePasswordAuthenticationToken(
-                    userDetails, null, userDetails.getAuthorities()
-            );
-            SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-
+        catch (Exception e){
+            System.out.println(e);
         }
-
-        filterChain.doFilter(request,response);
+        filterChain.doFilter(request, response);
 
 
     }
