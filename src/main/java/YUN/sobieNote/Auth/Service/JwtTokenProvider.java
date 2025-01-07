@@ -63,7 +63,6 @@ public class JwtTokenProvider {
 
     public boolean isValidToken(String token){
         Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
-
         try {
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(key)
@@ -71,21 +70,31 @@ public class JwtTokenProvider {
                     .parseClaimsJws(token)
                     .getBody();
             Date expiration = claims.getExpiration();
-
             // 토큰이 만료 되었으면
             if (expiration.before(new Date())) {
                 throw new ExpiredJwtException(null, claims, "토큰이 만료되었습니다");
             }
-
             return true;
 
         }catch (Exception e){
-
-            // 로그 쌓기
+            // todo 로그 쌓기
             return false;
-
         }
+    }
 
+    public String getUserNameFromToken(String token){
+
+        Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        String userName = (String) claims.get("userName"); // userName이 없으면 해당 토큰은 유효하지 않은 토큰이다.
+
+
+        return userName;
     }
 
 }
