@@ -25,7 +25,7 @@ public class JwtTokenProvider {
 
     public JwtTokenProvider(){
         dotenv = DotenvConfig.getInstance();
-        ACCESS_TOKEN_EXPIRATION_TIME = 3600;
+        ACCESS_TOKEN_EXPIRATION_TIME = 60000;
         REFRESH_TOKEN_EXPIRATION_TIME = 99999999; //todo 적당한 걸로 바꾸기
         JWT_SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
 
@@ -62,15 +62,14 @@ public class JwtTokenProvider {
     }
 
     public boolean isValidToken(String token){
-        Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
         try {
+            Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
             Claims claims = Jwts.parserBuilder()
                     .setSigningKey(key)
                     .build()
                     .parseClaimsJws(token)
                     .getBody();
             Date expiration = claims.getExpiration();
-            // 토큰이 만료 되었으면
             if (expiration.before(new Date())) {
                 throw new ExpiredJwtException(null, claims, "토큰이 만료되었습니다");
             }
