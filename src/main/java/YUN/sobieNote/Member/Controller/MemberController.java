@@ -1,16 +1,11 @@
 package YUN.sobieNote.Member.Controller;
 
-import YUN.sobieNote.Auth.Service.AuthService;
 import YUN.sobieNote.Auth.Service.JwtTokenProvider;
 import YUN.sobieNote.Global.Exception.ErrorResponse;
 import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import YUN.sobieNote.Member.DTO.MemberLoginResponse;
-import YUN.sobieNote.Member.Exception.NotValidatedValueException;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -34,11 +29,17 @@ public class MemberController {
         String email = memberLoginRequest.getEmail();
 
         try{
-            long memberId = 1; //  테스트용 임의의 멤버 Id입니다. 나중에는 데이터베이스에서 가져올 것
+            long memberId;
+            if(name.equals("k0789789") && email.equals("k0789789@naver.com")){ // todo 나중에 db 구축하면 리팩토링
+                memberId = 1;
+            }else {
+                throw new Exception("허걱쓰 ㅋㅋ");
+            }
 
             // todo long memberId = 나중에 데이터베이스에서 가져올 것
             String accessToken = jwtTokenProvider.generateAccessToken(name);
             String refreshToken = jwtTokenProvider.generateRefreshToken(name);
+
             return ResponseEntity.ok()
                     .header("Authorization", "Bearer "+ accessToken)
                     .header("Refresh-Token",refreshToken)
