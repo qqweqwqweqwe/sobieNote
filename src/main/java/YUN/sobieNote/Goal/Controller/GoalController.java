@@ -2,6 +2,7 @@ package YUN.sobieNote.Goal.Controller;
 
 
 import YUN.sobieNote.Goal.DTO.GoalGetResponse;
+import YUN.sobieNote.Goal.DTO.GoalPostResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -22,11 +23,11 @@ public class GoalController {
     }
 
     @PostMapping("/{memberId}")
-    public ResponseEntity<GoalGetResponse> modifyGoal(
+    public ResponseEntity<GoalPostResponse> modifyGoal(
             @PathVariable long memberId
     ){
         return ResponseEntity.ok()
-                .body(new GoalGetResponse());
+                .body(new GoalPostResponse());
     }
 
 }
