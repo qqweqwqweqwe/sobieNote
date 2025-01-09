@@ -1,19 +1,20 @@
 package YUN.sobieNote.Board.DTO;
 
+import lombok.AllArgsConstructor;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-public class BoardPostResponse {
+import java.util.Date;
 
-    private BoardRequest boardRequest;
+@AllArgsConstructor
+@NoArgsConstructor
+@Getter
+public class BoardPostResponse{
+
     private String result;
     private String msg;
-    private boolean data;
+    private int data;
 
-    public BoardPostResponse(String result, String msg, boolean data) {
-        this.result = result;
-        this.msg = msg;
-        this.data = data;
 
-    }
 }

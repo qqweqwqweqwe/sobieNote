@@ -7,6 +7,7 @@ import jakarta.validation.Valid;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.util.Date;
 
@@ -44,20 +45,19 @@ public class BoardController {
     }
 
 
-    /**
-     * 게시판에 피드 내용을 추가하는 API입니다
-     * @param memberId
-     * @param request
-     * @return
-     */
     @PostMapping("/posting/{memberId}")
     @ResponseBody
     public ResponseEntity<BoardPostResponse> createPost(
             @PathVariable long memberId,
-            @RequestBody BoardRequest request
+            @RequestPart BoardRequest boardRequest,
+            @RequestPart(value = "attachFile", required = false) MultipartFile attachFile
             ){
 
-        BoardPostResponse boardPostResponse = new BoardPostResponse();
+        BoardPostResponse boardPostResponse = new BoardPostResponse(
+                "test",
+                "test",
+                1
+        );
         return ResponseEntity.ok()
                 .body(boardPostResponse);
     }
