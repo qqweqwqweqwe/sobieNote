@@ -25,7 +25,7 @@ public class JwtTokenProvider {
 
     public JwtTokenProvider(){
         dotenv = DotenvConfig.getInstance();
-        ACCESS_TOKEN_EXPIRATION_TIME = 60000;
+        ACCESS_TOKEN_EXPIRATION_TIME = 600000;
         REFRESH_TOKEN_EXPIRATION_TIME = 99999999; //todo 적당한 걸로 바꾸기
         JWT_SECRET_KEY = dotenv.get("JWT_SECRET_KEY");
 
@@ -43,7 +43,6 @@ public class JwtTokenProvider {
                 .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
                 .signWith(key)
                 .compact();
-
     }
 
     public String generateRefreshToken(String userName){

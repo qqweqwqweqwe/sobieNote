@@ -29,7 +29,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String authorization = request.getHeader("Authorization");
         String userName = "";
         String token = "";
-        System.out.println("dasd");
         try {
             // 토큰 파싱
             if (authorization != null && authorization.startsWith("Bearer ")) { // Bearer 토큰 파싱
