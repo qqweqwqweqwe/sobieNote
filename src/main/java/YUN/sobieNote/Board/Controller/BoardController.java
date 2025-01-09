@@ -45,10 +45,17 @@ public class BoardController {
     }
 
 
-    @PostMapping("/posting/{memberId}")
+    /**
+     * 피드를 작성합니다
+     * @param boardId // 게시글 Id
+     * @param boardRequest // 내용
+     * @param attachFile // 이미지
+     * @return BoardPostResponse
+     */
+    @PostMapping("/posting/{boardId}")
     @ResponseBody
     public ResponseEntity<BoardPostResponse> createPost(
-            @PathVariable long memberId,
+            @PathVariable long boardId,
             @RequestPart BoardRequest boardRequest,
             @RequestPart(value = "attachFile", required = false) MultipartFile attachFile
             ){
@@ -56,28 +63,43 @@ public class BoardController {
         BoardPostResponse boardPostResponse = new BoardPostResponse(
                 "test",
                 "test",
-                1
+                "1"
         );
         return ResponseEntity.ok()
                 .body(boardPostResponse);
     }
 
+
     /**
-     * 피드에 내용을 추가하는 API입니다.
-     * @param boardId
-     * @param request
-     * @return
+     *
+     * @param boardId // 게시글 id
+     * @param boardRequest // 내용
+     * @param attachFile // 이미지
+     * @return BoardPatchResponse
      */
     @PatchMapping("/posting/{boardId}")
     @ResponseBody
     public ResponseEntity<BoardPatchResponse>patchPost(
             @PathVariable long boardId,
-            @RequestBody BoardRequest request
+            @RequestPart BoardRequest boardRequest,
+            @RequestPart(value = "attachFile", required = false) MultipartFile attachFile
             ){
         return  ResponseEntity.ok()
-                .body(new BoardPatchResponse("result", "msg", true));
+                .body(new BoardPatchResponse(
+                        "result",
+                        "msg",
+                        "1"));
     }
 
-//    @DeleteMapping("/")
-//    public ResponseEntity
+    @DeleteMapping("/posting/{boardId}")
+    public ResponseEntity<BoardDeleteResponse>deletePost(
+            @PathVariable long boardId
+    ){
+        return ResponseEntity.ok()
+                .body(new BoardDeleteResponse(
+                        "result",
+                        "msg",
+                        "1"
+                ));
+    }
 }
