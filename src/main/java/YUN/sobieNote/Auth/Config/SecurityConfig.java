@@ -35,10 +35,10 @@ public class SecurityConfig {
                 // 토큰 기반 인증이므로 무상태 인증 시스템. (왜냐 요청마다 독립적으로 검증할 것이므로)
                 // 즉 세션은 필요가 없다.
                 // security context에는 토큰 기반으로 유저 정보 저장
-                .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/member/login").permitAll()
-                        .anyRequest().authenticated()
-                )
+//                .authorizeHttpRequests(authorize -> authorize
+//                        .requestMatchers("/member/login").permitAll()
+//                        .anyRequest().authenticated()
+//                )
                 // 로그인 경로를 제외한 모든 경로는 권한이 필요하게끔 설정
 
 //                .exceptionHandling(exceptionalHandling -> exceptionalHandling
