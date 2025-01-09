@@ -92,6 +92,7 @@ public class BoardController {
     }
 
     @DeleteMapping("/posting/{boardId}")
+    @ResponseBody
     public ResponseEntity<BoardDeleteResponse>deletePost(
             @PathVariable long boardId
     ){
