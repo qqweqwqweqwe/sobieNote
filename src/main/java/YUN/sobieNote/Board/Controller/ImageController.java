@@ -44,4 +44,7 @@ public class ImageController {
 
     }
 
+    @GetMapping("/{year}/{month}/{memberId}")
+    public ResponseEntity<>
+
 }
