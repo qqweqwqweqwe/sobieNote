@@ -1,6 +1,7 @@
 package YUN.sobieNote.Report.Controller;
 
 import YUN.sobieNote.Report.DTO.CategoryReportGetResponse;
+import YUN.sobieNote.Report.DTO.EmotionsReportGetResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -36,4 +37,24 @@ public class ReportController {
                         data
                 ));
     }
+
+
+    @GetMapping("/emotions/{year}/{month}/{memberId}")
+    public ResponseEntity<EmotionsReportGetResponse> getEmotionsReport(
+            @PathVariable long year,
+            @PathVariable long month,
+            @PathVariable long memberId
+
+    ){
+        EmotionsReportGetResponse.Data data = new EmotionsReportGetResponse.Data(
+                "test",
+                1);
+        return ResponseEntity.ok()
+                .body(new EmotionsReportGetResponse(
+                        "test",
+                        "test",
+                        data
+                ));
+    }
+
 }
