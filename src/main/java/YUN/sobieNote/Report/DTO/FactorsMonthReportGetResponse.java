@@ -10,7 +10,7 @@ import lombok.NoArgsConstructor;
 public class FactorsMonthReportGetResponse {
     private String result;
     private String msg;
-    private CategoryMonthReportGetResponse.Data data;
+    private Data data;
 
     @NoArgsConstructor
     @AllArgsConstructor
