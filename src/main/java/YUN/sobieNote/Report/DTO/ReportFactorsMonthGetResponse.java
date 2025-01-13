@@ -7,7 +7,7 @@ import lombok.NoArgsConstructor;
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
-public class FactorsMonthReportGetResponse {
+public class ReportFactorsMonthGetResponse {
     private String result;
     private String msg;
     private Data data;
