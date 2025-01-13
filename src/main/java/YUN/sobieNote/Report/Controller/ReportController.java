@@ -1,8 +1,8 @@
 package YUN.sobieNote.Report.Controller;
 
-import YUN.sobieNote.Report.DTO.CategoryMonthReportGetResponse;
-import YUN.sobieNote.Report.DTO.EmotionsMonthReportGetResponse;
-import YUN.sobieNote.Report.DTO.FactorsMonthReportGetResponse;
+import YUN.sobieNote.Report.DTO.ReportCategoryMonthGetResponse;
+import YUN.sobieNote.Report.DTO.ReportEmotionsMonthGetResponse;
+import YUN.sobieNote.Report.DTO.ReportFactorsMonthGetResponse;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -23,18 +23,18 @@ public class ReportController {
      */
     @GetMapping("/categories/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<CategoryMonthReportGetResponse> getCategoryMonthReport(
+    public ResponseEntity<ReportCategoryMonthGetResponse> getCategoryMonthReport(
             @PathVariable long year,
             @PathVariable long month,
             @PathVariable long memberId
 
     ){
-        CategoryMonthReportGetResponse.Data data = new CategoryMonthReportGetResponse.Data(
+        ReportCategoryMonthGetResponse.Data data = new ReportCategoryMonthGetResponse.Data(
                 "test",
                 1);
 
         return ResponseEntity.ok()
-                .body(new CategoryMonthReportGetResponse(
+                .body(new ReportCategoryMonthGetResponse(
                         "test",
                         "test",
                         data
@@ -51,17 +51,17 @@ public class ReportController {
      */
     @GetMapping("/emotions/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<EmotionsMonthReportGetResponse> getEmotionsMonthReport(
+    public ResponseEntity<ReportEmotionsMonthGetResponse> getEmotionsMonthReport(
             @PathVariable long year,
             @PathVariable long month,
             @PathVariable long memberId
 
     ){
-        EmotionsMonthReportGetResponse.Data data = new EmotionsMonthReportGetResponse.Data(
+        ReportEmotionsMonthGetResponse.Data data = new ReportEmotionsMonthGetResponse.Data(
                 "test",
                 1);
         return ResponseEntity.ok()
-                .body(new EmotionsMonthReportGetResponse(
+                .body(new ReportEmotionsMonthGetResponse(
                         "test",
                         "test",
                         data
@@ -70,16 +70,16 @@ public class ReportController {
 
     @GetMapping("/emotions/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<FactorsMonthReportGetResponse> getFactorsMonthReport(
+    public ResponseEntity<ReportFactorsMonthGetResponse> getFactorsMonthReport(
             @PathVariable long year,
             @PathVariable long month,
             @PathVariable long memberId
     ){
-        FactorsMonthReportGetResponse.Data data = new FactorsMonthReportGetResponse.Data(
+        ReportFactorsMonthGetResponse.Data data = new ReportFactorsMonthGetResponse.Data(
                 "test",
                 1);
         return ResponseEntity.ok()
-                .body(new FactorsMonthReportGetResponse(
+                .body(new ReportFactorsMonthGetResponse(
                         "test",
                         "test",
                         data
