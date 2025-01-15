@@ -10,8 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-@RequestMapping("/report")
 @Controller
+@RequestMapping("/report")
 public class ReportController {
 
     /**
@@ -68,7 +68,7 @@ public class ReportController {
                 ));
     }
 
-    @GetMapping("/emotions/{year}/{month}/{memberId}")
+    @GetMapping("/factors/{year}/{month}/{memberId}")
     @ResponseBody
     public ResponseEntity<ReportFactorsMonthGetResponse> getFactorsMonthReport(
             @PathVariable long year,
