@@ -1,5 +1,6 @@
 package YUN.sobieNote.Auth.DTO;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.RequiredArgsConstructor;
@@ -7,22 +8,28 @@ import lombok.Setter;
 
 @Getter
 @Setter
-@RequiredArgsConstructor
 @NoArgsConstructor
 public class KakaoGetTokenResponse {
 
-    private String token_type;
+    @JsonProperty("token_type")
+    private String tokenType;
 
-    private String access_token;
+    @JsonProperty("access_token")
+    private String accessToken;
 
-    private String id_token;
+    @JsonProperty("id_token")
+    private String idToken;
 
-    private int expires_in;
+    @JsonProperty("expires_in")
+    private int expiresIn;
 
-    private String refresh_token;
+    @JsonProperty("refresh_token")
+    private String refreshToken;
 
-    private int refresh_token_expires_in;
+    @JsonProperty("refresh_token_expires_in")
+    private int refreshTokenExpiresIn;
 
+    @JsonProperty("scope")
     private String scope;
 
 
