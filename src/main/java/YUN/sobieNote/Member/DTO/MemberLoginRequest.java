@@ -1,11 +1,18 @@
 package YUN.sobieNote.Member.DTO;
 
+import YUN.sobieNote.Member.Entity.Member;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.Setter;
 
 
+@Getter
+@Setter
+@Builder
 public class MemberLoginRequest {
-    @NotBlank(message = "이름을 입력하세요")
+
     private String name;
 
 
@@ -17,6 +24,13 @@ public class MemberLoginRequest {
     public MemberLoginRequest(String name, String email){
         this.email = email;
         this.name = name;
+    }
+
+    public Member toEntity(){
+        return Member.builder()
+                .name(this.name)
+                .email(this.email)
+                .build();
     }
 
     public String getName() {
