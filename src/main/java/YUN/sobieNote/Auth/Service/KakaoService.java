@@ -2,7 +2,11 @@ package YUN.sobieNote.Auth.Service;
 
 import YUN.sobieNote.Auth.DTO.KakaoGetTokenResponse;
 import YUN.sobieNote.Auth.DTO.KakaoGetUserInfoResponse;
+import YUN.sobieNote.Member.DTO.MemberLoginRequest;
+import YUN.sobieNote.Member.Entity.Member;
+import YUN.sobieNote.Member.Repository.MemberRepository;
 import io.netty.handler.codec.http.HttpHeaderValues;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Service;
@@ -14,6 +18,9 @@ public class KakaoService {
 
     private final String REST_API_KEY;
     private final String REDIRECT_URI;
+
+    @Autowired
+    private MemberRepository memberRepository;
 
     public KakaoService(
             @Value("${kakao.rest_api_key}") String REST_API_KEY,
@@ -70,4 +77,19 @@ public class KakaoService {
 
         return kakaoGetUserInfoResponse;
     }
+
+    public Member saveMember(MemberLoginRequest memberLoginRequest){
+        Member member = memberLoginRequest.toEntity(); //  엔티티로 변환
+        return this.memberRepository.save(member);
+    }
+
+    public Member findByEmail(String email ){
+        return memberRepository.findByEmail(email);
+    }
+
+    public boolean isRegistered(String email){
+        return memberRepository.existsByEmail(email);
+    }
+
+
 }
