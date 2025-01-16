@@ -29,6 +29,7 @@ dependencies {
 	implementation 'io.jsonwebtoken:jjwt-jackson:0.11.5' // Jackson 기반 JSON 처리
 	implementation 'org.springframework.boot:spring-boot-starter-security'
 	implementation 'org.springframework.boot:spring-boot-starter-webflux'
+	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
 
 	implementation 'io.github.cdimascio:dotenv-java:2.2.4'
 
