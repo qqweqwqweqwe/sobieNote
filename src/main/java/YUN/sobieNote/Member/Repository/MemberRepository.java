@@ -4,10 +4,12 @@ import YUN.sobieNote.Member.Entity.Member;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
-@Repository
-public interface MemberRepository extends JpaRepository<Member, Long> {
+import java.util.Optional;
 
-    Member findByEmail(String email);
+@Repository
+public interface MemberRepository extends JpaRepository<Member, Integer> {
+
+    Optional<Member> findByEmail(String email);
 
     boolean existsByEmail(String email);
 
