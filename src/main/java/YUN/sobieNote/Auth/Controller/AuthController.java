@@ -6,7 +6,9 @@ import YUN.sobieNote.Auth.Service.KakaoService;
 import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import YUN.sobieNote.Member.DTO.MemberLoginResponse;
 import YUN.sobieNote.Member.Entity.Member;
+import YUN.sobieNote.Member.Exception.MemberLoginErrorResponse;
 import YUN.sobieNote.Member.Repository.MemberRepository;
+import YUN.sobieNote.Member.Service.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,36 +23,33 @@ import org.springframework.web.bind.annotation.RequestParam;
 public class AuthController {
 
     private final KakaoService kakaoService;
+    private final MemberService memberService;
 
 
     @GetMapping("/kakao/login/callback")
-    public ResponseEntity<MemberLoginResponse> callback(
+    public ResponseEntity<?> callback(
             @RequestParam("code") String code){
 
-        System.out.println(code);
-        String token = kakaoService.getAccessTokenFromCode(code);
-        System.out.println("token : " + token);
+        try {
+            String token = kakaoService.getAccessTokenFromCode(code);
 
-        KakaoGetUserInfoResponse kakaoGetUserInfoResponse = kakaoService.getUserInfoFromToken(token);
+            KakaoGetUserInfoResponse kakaoGetUserInfoResponse = kakaoService.getUserInfoFromToken(token);
 
+            String name = kakaoGetUserInfoResponse.getKakaoAccount().getProfile().getNickName();
+            String email = kakaoGetUserInfoResponse.getKakaoAccount().getEmail();
+            MemberLoginRequest memberLoginRequest = new MemberLoginRequest(name, email);
+            int authProviderId = 1;   // 카카오
+            int memberRoleId = 1;     // 일반 유저
+            Member member = memberService.findOrSaveMember(memberLoginRequest, authProviderId, memberRoleId);
 
-        String name = kakaoGetUserInfoResponse.getKakaoAccount().getName();
-        String email = kakaoGetUserInfoResponse.getKakaoAccount().getEmail();
+            return ResponseEntity.ok()
+                    .body(new MemberLoginResponse(member.getId()));
 
-
-        MemberLoginRequest memberLoginRequest = new MemberLoginRequest(name,email);
-        long id;
-        Member member;
-        if(!kakaoService.isRegistered(email)){  // 회원가입 안했으면
-            member = kakaoService.saveMember(memberLoginRequest);
-            id = member.getId();
-        }else{
-            member = kakaoService.findByEmail(email);
-            id = member.getId();
         }
-        return ResponseEntity.ok()
-                .body(new MemberLoginResponse(id));
-
+        catch (Exception e){
+            return ResponseEntity.badRequest()
+                    .body(new MemberLoginErrorResponse(e.getClass().getSimpleName(), e.getMessage()));
+        }
     }
 
 }
