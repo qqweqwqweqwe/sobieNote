@@ -1,6 +1,6 @@
 package YUN.sobieNote.Member.Exception;
 
-public class LoginErrorResponse {
+public class MemberLoginErrorResponse {
 
 
 }

@@ -54,7 +54,7 @@ public class KakaoService {
             token = kakaoGetTokenResponse.getAccessToken();
 
         }catch (Exception e){
-            System.out.println("에러에러에러  : " +e);
+            System.out.println("카카오로부터 토큰을 가져오는데 실패하였습니다 에러 내용 : " +e);
         }
 
         return token;
@@ -78,18 +78,6 @@ public class KakaoService {
         return kakaoGetUserInfoResponse;
     }
 
-    public Member saveMember(MemberLoginRequest memberLoginRequest){
-        Member member = memberLoginRequest.toEntity(); //  엔티티로 변환
-        return this.memberRepository.save(member);
-    }
-
-    public Member findByEmail(String email ){
-        return memberRepository.findByEmail(email);
-    }
-
-    public boolean isRegistered(String email){
-        return memberRepository.existsByEmail(email);
-    }
 
 
 }
