@@ -17,4 +17,11 @@ public class BoardRequest {
     private String factors;
     private String categories;
 
+    public BoardRequest(BoardRequest boardRequest) {
+        this.contents = boardRequest.contents;
+        this.emotions = boardRequest.emotions;
+        this.satisfactions = boardRequest.satisfactions;
+        this.factors = boardRequest.factors;
+        this.categories = boardRequest.categories;
+    }
 }

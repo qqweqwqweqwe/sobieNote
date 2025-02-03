@@ -14,4 +14,8 @@ public class BoardPostRequest extends BoardRequest{
 
     private MultipartFile attachFile;
 
+    public BoardPostRequest(BoardRequest boardRequest, MultipartFile attachFile) {
+        super(boardRequest);
+        this.attachFile = attachFile;
+    }
 }

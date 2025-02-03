@@ -14,7 +14,7 @@ public class BoardPostResponse{
 
     private String result;
     private String msg;
-    private String  data;
+    private Integer data;
 
 
 }
