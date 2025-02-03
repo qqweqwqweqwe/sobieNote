@@ -33,7 +33,9 @@ public class BoardController {
             @PathVariable int boardId
     ){
         try {
-            BoardGetResponse boardGetResponse =boardService.getPostById(boardId);
+
+            Board board =boardService.getPostById(boardId);
+            BoardGetResponse boardGetResponse = new BoardGetResponse(board, "OK", "성공");
             return ResponseEntity.ok()
                     .body(boardGetResponse);
         }catch (Exception e){
@@ -107,13 +109,10 @@ public class BoardController {
     @DeleteMapping("/posting/{boardId}")
     @ResponseBody
     public ResponseEntity<BoardDeleteResponse>deletePost(
-            @PathVariable long boardId
+            @PathVariable int boardId
     ){
+        BoardDeleteResponse boardDeleteResponse = boardService.deletePost(boardId);
         return ResponseEntity.ok()
-                .body(new BoardDeleteResponse(
-                        "result",
-                        "msg",
-                        "1"
-                ));
+                .body(boardDeleteResponse);
     }
 }
