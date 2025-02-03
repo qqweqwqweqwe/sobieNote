@@ -2,8 +2,10 @@ package YUN.sobieNote.Board.Controller;
 
 
 import YUN.sobieNote.Board.DTO.*;
+import YUN.sobieNote.Board.Entity.Board;
 import YUN.sobieNote.Board.Service.BoardService;
 import YUN.sobieNote.Global.Exception.ErrorResponse;
+import YUN.sobieNote.Member.Entity.Member;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -71,7 +73,7 @@ public class BoardController {
 
 
     /**
-     *
+     * 피드를 수정합니다.
      * @param boardId // 게시글 id
      * @param boardRequest // 내용
      * @param attachFile // 이미지
@@ -79,16 +81,27 @@ public class BoardController {
      */
     @PatchMapping("/posting/{boardId}")
     @ResponseBody
-    public ResponseEntity<BoardPatchResponse>patchPost(
-            @PathVariable long boardId,
+    public ResponseEntity<?>patchPost(
+            @PathVariable int boardId,
             @RequestPart BoardRequest boardRequest,
             @RequestPart(value = "attachFile", required = false) MultipartFile attachFile
             ){
-        return  ResponseEntity.ok()
-                .body(new BoardPatchResponse(
-                        "result",
-                        "msg",
-                        "1"));
+
+        try {
+            BoardPostRequest boardPostRequest = new BoardPostRequest(
+                    boardRequest,
+                    attachFile
+            );
+            Member member = boardService.getMemberOfPost(boardId);
+
+            BoardPostResponse boardPostResponse = boardService.uploadPost(boardPostRequest, member.getId());
+            return ResponseEntity.ok()
+                    .body(boardPostResponse);
+        }catch (Exception e){
+            return ResponseEntity.badRequest()
+                    .body(new ErrorResponse(e.getClass().getSimpleName(), e.getMessage()));
+        }
+
     }
 
     @DeleteMapping("/posting/{boardId}")
