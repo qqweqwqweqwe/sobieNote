@@ -24,6 +24,7 @@ public class BoardGetResponse {
 
     }
 
+
     @Getter
     @NoArgsConstructor
     @AllArgsConstructor
