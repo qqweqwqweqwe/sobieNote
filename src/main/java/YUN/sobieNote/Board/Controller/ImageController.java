@@ -2,7 +2,7 @@ package YUN.sobieNote.Board.Controller;
 
 
 import YUN.sobieNote.Board.DTO.ImageGetResponse;
-import YUN.sobieNote.Board.DTO.ImageGetResponseByMember;
+import YUN.sobieNote.Board.DTO.ImageGetResponseByYearAndMonthAndMember;
 import YUN.sobieNote.Board.Entity.Board;
 import YUN.sobieNote.Board.Service.BoardService;
 import lombok.RequiredArgsConstructor;
@@ -13,8 +13,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 
@@ -35,6 +33,8 @@ public class ImageController {
     public ResponseEntity<ImageGetResponse> getImage(
             @PathVariable int boardId
     ){
+        // 이미지를 조회한다고?
+
         try {
             Board board = boardService.getPostById(boardId);
             ImageGetResponse imageGetResponse = new ImageGetResponse(board,"OK","Success");
@@ -49,18 +49,17 @@ public class ImageController {
     }
 
     @GetMapping("/{year}/{month}/{memberId}")
-    public ResponseEntity<ImageGetResponseByMember> getImageByMember(
-            @PathVariable long year,
-            @PathVariable long month,
-            @PathVariable long memberId
+    public ImageGetResponseByYearAndMonthAndMember getImageByMember(
+            @PathVariable int year,
+            @PathVariable int month,
+            @PathVariable int memberId
     ){
-        ImageGetResponseByMember.Data data= new ImageGetResponseByMember.Data(new ArrayList<String>(List.of(new String[]{"test"})));
-        return ResponseEntity.ok()
-                .body(new ImageGetResponseByMember(
-                        "test",
-                        "test",
-                        data
-                        ));
+        try {
+            List<String> imagePath = boardService.getImagePaths(year,month,memberId);
+            return new ImageGetResponseByYearAndMonthAndMember(imagePath, "OK","Success");
+        }catch (Exception e){
+            return  new ImageGetResponseByYearAndMonthAndMember(null, "FAIL",e.getMessage());
+        }
     }
 
 }
