@@ -3,6 +3,9 @@ package YUN.sobieNote.Board.Controller;
 
 import YUN.sobieNote.Board.DTO.ImageGetResponse;
 import YUN.sobieNote.Board.DTO.ImageGetResponseByMember;
+import YUN.sobieNote.Board.Entity.Board;
+import YUN.sobieNote.Board.Service.BoardService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,7 +21,10 @@ import java.util.List;
 @RequestMapping("image")
 @Controller
 @ResponseBody
+@RequiredArgsConstructor
 public class ImageController {
+
+    private final BoardService boardService;
 
     /**
      * 이미지를 조회합니다.
@@ -27,23 +33,18 @@ public class ImageController {
      */
     @GetMapping("/{boardId}")
     public ResponseEntity<ImageGetResponse> getImage(
-            @PathVariable long boardId
+            @PathVariable int boardId
     ){
-        ImageGetResponse.Data data= new ImageGetResponse.Data(
-                "test",
-                new Date(),
-                "test",
-                "test",
-                1,
-                "test"
-        );
-        ImageGetResponse imageGetResponse = new ImageGetResponse(
-                "test",
-                "test",
-                data
-        );
-        return ResponseEntity.ok()
-                .body(imageGetResponse);
+        try {
+            Board board = boardService.getPostById(boardId);
+            ImageGetResponse imageGetResponse = new ImageGetResponse(board,"OK","Success");
+            return ResponseEntity.ok()
+                    .body(imageGetResponse);
+        }catch (Exception e){
+            return ResponseEntity.ok()
+                    .body(new ImageGetResponse(null, "FAIL", e.getMessage()));
+
+        }
 
     }
 
