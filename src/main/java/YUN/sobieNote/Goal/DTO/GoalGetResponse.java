@@ -10,7 +10,15 @@ public class GoalGetResponse {
     private String data;
 
 
-    public GoalGetResponse(Goal goal,String msg, String data) {
+    public GoalGetResponse(Goal goal,String result, String msg) {
         this.data = goal.getContents();
+        this.result = result;
+        this.msg = msg;
+    }
+
+    public GoalGetResponse(Goal goal) {
+        this.data = goal.getContents();
+        this.result = "OK";
+        this.msg = "Success";
     }
 }
