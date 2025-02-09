@@ -1,23 +1,27 @@
 package YUN.sobieNote.Report.DTO;
 
 import lombok.AllArgsConstructor;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-@Getter
-@NoArgsConstructor
-@AllArgsConstructor
-public class ReportCategoryMonthGetResponse {
+import java.util.List;
+
+public class ReportGetResponse {
+
     private String result;
     private String msg;
-    private Data data;
+    private List<Data> data;
+
 
     @NoArgsConstructor
     @AllArgsConstructor
     @Getter
     public static class Data{
         private String keyword;
-        private long value;
+        private long value;  // count 수
 
     }
+
+
 }

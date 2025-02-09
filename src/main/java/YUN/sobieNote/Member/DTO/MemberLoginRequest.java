@@ -26,13 +26,6 @@ public class MemberLoginRequest {
         this.name = name;
     }
 
-    public Member toEntity(){
-        return Member.builder()
-                .name(this.name)
-                .email(this.email)
-                .build();
-    }
-
     public String getName() {
         return this.name;
     }

@@ -1,8 +1,11 @@
 package YUN.sobieNote.Report.Controller;
 
-import YUN.sobieNote.Report.DTO.ReportCategoryMonthGetResponse;
+import YUN.sobieNote.Board.Service.BoardService;
+import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
 import YUN.sobieNote.Report.DTO.ReportEmotionsMonthGetResponse;
 import YUN.sobieNote.Report.DTO.ReportFactorsMonthGetResponse;
+import YUN.sobieNote.Report.Service.ReportService;
+import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -12,7 +15,11 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 @Controller
 @RequestMapping("/report")
+@RequiredArgsConstructor
 public class ReportController {
+
+    private final ReportService reportService;
+    private final BoardService boardService;
 
     /**
      * 구매 카테고리를 조회합니다.
@@ -23,23 +30,27 @@ public class ReportController {
      */
     @GetMapping("/categories/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportCategoryMonthGetResponse> getCategoryMonthReport(
-            @PathVariable long year,
-            @PathVariable long month,
-            @PathVariable long memberId
+    public ResponseEntity<ReportCategoryGetResponse> getCategoryMonthReport(
+            @PathVariable int year,
+            @PathVariable int month,
+            @PathVariable int memberId
 
     ){
-        ReportCategoryMonthGetResponse.Data data = new ReportCategoryMonthGetResponse.Data(
-                "test",
-                1);
-
-        return ResponseEntity.ok()
-                .body(new ReportCategoryMonthGetResponse(
-                        "test",
-                        "test",
-                        data
-                ));
+        reportService.getReportCategory(memberId,year,month);
     }
+
+    @GetMapping("/categories/{year}/{memberId}")
+    @ResponseBody
+    public ResponseEntity<ReportCategoryGetResponse> getCategoryMonthReport(
+            @PathVariable int year,
+            @PathVariable int memberId
+
+    ){
+
+        reportService.getReportCategory(memberId,year,null);
+
+    }
+
 
 
     /**

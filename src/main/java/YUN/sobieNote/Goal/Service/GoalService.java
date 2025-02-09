@@ -4,11 +4,13 @@ import YUN.sobieNote.Goal.DTO.GoalGetResponse;
 import YUN.sobieNote.Goal.DTO.GoalPostResponse;
 import YUN.sobieNote.Goal.Entity.Goal;
 import YUN.sobieNote.Goal.Repository.GoalRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class GoalService {
     private final GoalRepository goalRepository;
 
