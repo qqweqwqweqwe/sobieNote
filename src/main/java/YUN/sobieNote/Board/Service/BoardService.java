@@ -20,7 +20,9 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 @RequiredArgsConstructor
@@ -33,13 +35,20 @@ public class BoardService {
 
 
     public Board getPostById(int id){
-        Board board = boardRepository.findById(id)
+        return boardRepository.findById(id)
                 .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. ID: " + id));
-        return board;
     }
 
-    public Board getAllPost(Integer memberId, Integer year, Integer month){
-        boardRepository.find
+    public List<Board> getPosts(Integer memberId, Integer year, Integer month){
+        List<Board> boards = boardRepository.findBoards(memberId,year,month)
+                .orElse(Collections.emptyList()); // optinal이 비어있으면 빈 리스트 반환
+
+        if(boards.isEmpty()){
+            throw new NoSuchElementException("게시글이 존재하지 않습니다");
+        }
+
+        return boards;
+
     }
 
     public Member getMemberOfPost(int id){
@@ -93,7 +102,4 @@ public class BoardService {
 
     }
 
-    public ReportCategoryGetResponse getCategoryReport(int memberId, int year, Integer month){
-        Board
-    }
 }
