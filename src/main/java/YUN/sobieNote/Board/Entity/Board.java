@@ -52,9 +52,11 @@ public class Board {
     @CreatedDate
     private LocalDateTime createdAt;
 
+    // 가상 컬럼 생성
     @Formula("YEAR(created_at)") // DB의 YEAR(created_at) 값 저장
     private int createdAtYear;
 
+    // 가상 컬럼 생성
     @Formula("MONTH(created_at)") // DB의 MONTH(created_at) 값 저장
     private int createdAtMonth;
 
