@@ -36,7 +36,17 @@ public class ReportController {
             @PathVariable int memberId
 
     ){
-        reportService.getReportCategory(memberId,year,month);
+        // todo 이거 예외처리 나중에 전역 예외 처리로 바꿀거
+        try {
+            ReportCategoryGetResponse reportCategoryGetResponse = reportService.getReportCategory(memberId,year,month);
+
+            return ResponseEntity.ok()
+                    .body(reportCategoryGetResponse);
+        }
+        catch (Exception e){
+            return ResponseEntity.ok()
+                    .body(new ReportCategoryGetResponse("FAIL", "조회실패", null));
+        }
     }
 
     @GetMapping("/categories/{year}/{memberId}")
@@ -46,8 +56,16 @@ public class ReportController {
             @PathVariable int memberId
 
     ){
+        try {
+            ReportCategoryGetResponse reportCategoryGetResponse = reportService.getReportCategory(memberId,year,null);
 
-        reportService.getReportCategory(memberId,year,null);
+            return ResponseEntity.ok()
+                    .body(reportCategoryGetResponse);
+        }
+        catch (Exception e){
+            return ResponseEntity.ok()
+                    .body(new ReportCategoryGetResponse("FAIL", "조회실패", null));
+        }
 
     }
 
@@ -63,9 +81,9 @@ public class ReportController {
     @GetMapping("/emotions/{year}/{month}/{memberId}")
     @ResponseBody
     public ResponseEntity<ReportEmotionsMonthGetResponse> getEmotionsMonthReport(
-            @PathVariable long year,
-            @PathVariable long month,
-            @PathVariable long memberId
+            @PathVariable int year,
+            @PathVariable int month,
+            @PathVariable int memberId
 
     ){
         ReportEmotionsMonthGetResponse.Data data = new ReportEmotionsMonthGetResponse.Data(
