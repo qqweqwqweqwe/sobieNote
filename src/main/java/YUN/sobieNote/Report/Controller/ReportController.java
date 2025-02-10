@@ -2,6 +2,7 @@ package YUN.sobieNote.Report.Controller;
 
 import YUN.sobieNote.Board.Service.BoardService;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
+import YUN.sobieNote.Report.DTO.ReportEmotionsGetResponse;
 import YUN.sobieNote.Report.DTO.ReportEmotionsMonthGetResponse;
 import YUN.sobieNote.Report.DTO.ReportFactorsMonthGetResponse;
 import YUN.sobieNote.Report.Service.ReportService;
@@ -30,7 +31,7 @@ public class ReportController {
      */
     @GetMapping("/categories/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportCategoryGetResponse> getCategoryMonthReport(
+    public ResponseEntity<ReportCategoryGetResponse> getCategoryReport(
             @PathVariable int year,
             @PathVariable int month,
             @PathVariable int memberId
@@ -51,7 +52,7 @@ public class ReportController {
 
     @GetMapping("/categories/{year}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportCategoryGetResponse> getCategoryMonthReport(
+    public ResponseEntity<ReportCategoryGetResponse> getCategoryReport(
             @PathVariable int year,
             @PathVariable int memberId
 
@@ -80,40 +81,41 @@ public class ReportController {
      */
     @GetMapping("/emotions/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportEmotionsMonthGetResponse> getEmotionsMonthReport(
+    public ResponseEntity<ReportEmotionsGetResponse> getEmotionsReport(
             @PathVariable int year,
             @PathVariable int month,
             @PathVariable int memberId
 
     ){
-        ReportEmotionsMonthGetResponse.Data data = new ReportEmotionsMonthGetResponse.Data(
-                "test",
-                1);
-        return ResponseEntity.ok()
-                .body(new ReportEmotionsMonthGetResponse(
-                        "test",
-                        "test",
-                        data
-                ));
+        try {
+            ReportEmotionsGetResponse reportEmotionsGetResponse = reportService.getReportEmotions(memberId,year,month);
+
+            return ResponseEntity.ok()
+                    .body(reportEmotionsGetResponse);
+        }
+        catch (Exception e){
+            return ResponseEntity.ok()
+                    .body(new ReportEmotionsGetResponse("FAIL", "조회실패", null));
+        }
     }
 
-    @GetMapping("/factors/{year}/{month}/{memberId}")
+    @GetMapping("/emotions/{year}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportFactorsMonthGetResponse> getFactorsMonthReport(
-            @PathVariable long year,
-            @PathVariable long month,
-            @PathVariable long memberId
-    ){
-        ReportFactorsMonthGetResponse.Data data = new ReportFactorsMonthGetResponse.Data(
-                "test",
-                1);
-        return ResponseEntity.ok()
-                .body(new ReportFactorsMonthGetResponse(
-                        "test",
-                        "test",
-                        data
-                ));
+    public ResponseEntity<ReportEmotionsGetResponse> getEmotionsReport(
+            @PathVariable int year,
+            @PathVariable int memberId
 
+    ){
+        try {
+            ReportEmotionsGetResponse reportEmotionsGetResponse = reportService.getReportEmotions(memberId,year,null);
+
+            return ResponseEntity.ok()
+                    .body(reportEmotionsGetResponse);
+        }
+        catch (Exception e){
+            return ResponseEntity.ok()
+                    .body(new ReportEmotionsGetResponse("FAIL", "조회실패", null));
+        }
     }
 
 }
