@@ -13,7 +13,7 @@ import lombok.Setter;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Factor")
+@Table(name = "factors")
 public class Factor {
 
     @Id

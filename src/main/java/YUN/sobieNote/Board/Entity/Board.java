@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "Board")
+@Table(name = "boards")
 public class Board {
 
     @Id
@@ -42,7 +42,7 @@ public class Board {
     @Column(name = "image_url", nullable = true)
     private String imageUrl;
 
-    @Column(name = "satisfactions")
+    @Column(name = "satisfaction")
     private long satisfactions;
 
     @Column(name = "contents")

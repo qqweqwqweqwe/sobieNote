@@ -9,7 +9,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "auth_provider")
+@Table(name = "auth_providers")
 public class AuthProvider {
 
     @Id
