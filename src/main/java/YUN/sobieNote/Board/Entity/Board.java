@@ -39,6 +39,10 @@ public class Board {
     @JoinColumn(name = "meaning_id")
     private Meaning meaning;
 
+    @ManyToOne
+    @JoinColumn(name = "factor_id")
+    private Factor factor;
+
     @Column(name = "image_url", nullable = true)
     private String imageUrl;
 
