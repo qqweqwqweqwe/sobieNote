@@ -3,8 +3,7 @@ package YUN.sobieNote.Report.Controller;
 import YUN.sobieNote.Board.Service.BoardService;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
 import YUN.sobieNote.Report.DTO.ReportEmotionsGetResponse;
-import YUN.sobieNote.Report.DTO.ReportEmotionsMonthGetResponse;
-import YUN.sobieNote.Report.DTO.ReportFactorsMonthGetResponse;
+import YUN.sobieNote.Report.DTO.ReportFactorsGetResponse;
 import YUN.sobieNote.Report.Service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -117,5 +116,51 @@ public class ReportController {
                     .body(new ReportEmotionsGetResponse("FAIL", "조회실패", null));
         }
     }
+
+    /**
+     * 구매 요인을 조회합니다.
+     * @param year
+     * @param month
+     * @param memberId
+     * @return
+     */
+    @GetMapping("/factors/{year}/{month}/{memberId}")
+    @ResponseBody
+    public ResponseEntity<ReportFactorsGetResponse> getFactorsReport(
+            @PathVariable int year,
+            @PathVariable int month,
+            @PathVariable int memberId
+
+    ){
+        try {
+            ReportFactorsGetResponse reportFactorsGetResponse = reportService.getReportFactors(memberId,year,month);
+
+            return ResponseEntity.ok()
+                    .body(reportFactorsGetResponse);
+        }
+        catch (Exception e){
+            return ResponseEntity.ok()
+                    .body(new ReportFactorsGetResponse("FAIL", "조회실패", null));
+        }
+    }
+
+    @GetMapping("/factors/{year}/{memberId}")
+    @ResponseBody
+    public ResponseEntity<ReportFactorsGetResponse> getFactorsReport(
+            @PathVariable int year,
+            @PathVariable int memberId
+
+    ){
+        try {
+            ReportFactorsGetResponse reportFactorsGetResponse = reportService.getReportFactors(memberId,year,null);
+            return ResponseEntity.ok()
+                    .body(reportFactorsGetResponse);
+        }
+        catch (Exception e){
+            return ResponseEntity.ok()
+                    .body(new ReportFactorsGetResponse("FAIL", "조회실패", null));
+        }
+    }
+
 
 }

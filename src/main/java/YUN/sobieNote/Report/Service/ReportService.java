@@ -5,6 +5,7 @@ import YUN.sobieNote.Board.Entity.Board;
 import YUN.sobieNote.Board.Service.BoardService;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
 import YUN.sobieNote.Report.DTO.ReportEmotionsGetResponse;
+import YUN.sobieNote.Report.DTO.ReportFactorsGetResponse;
 import YUN.sobieNote.Report.DTO.ReportGetResponse;
 import lombok.RequiredArgsConstructor;
 
@@ -65,5 +66,30 @@ public class ReportService {
             return new ReportEmotionsGetResponse("FAIL", "조회에 실패하였습니다 member Id : " + memberId + "error : " + e.getMessage(),null);
         }
     }
+
+    public ReportFactorsGetResponse getReportFactors(int memberId, int year, Integer month){
+        try {
+            List<Board> boards = boardService.getPosts(memberId, year, month);
+            ReportFactorsGetResponse reportFactorsGetResponse = new ReportFactorsGetResponse();
+
+            Map<String, Integer> factorsCount = new HashMap<>();
+
+            for (Board bo : boards) {
+                String factor = bo.getFactor().getType().name();
+                factorsCount.put(factor, factorsCount.getOrDefault(factor, 0) + 1);
+            }
+
+            for (String key : factorsCount.keySet()) {
+                reportFactorsGetResponse.getData().add(new ReportGetResponse.Data(key, factorsCount.get(key)));
+            }
+
+            reportFactorsGetResponse.setMsg("Success");
+            reportFactorsGetResponse.setResult("OK");
+            return reportFactorsGetResponse;
+        }catch (Exception e){
+            return new ReportFactorsGetResponse("FAIL", "조회에 실패하였습니다 member Id : " + memberId + "error : " + e.getMessage(),null);
+        }
+    }
+
 
 }
