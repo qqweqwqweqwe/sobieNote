@@ -1,6 +1,6 @@
 package YUN.sobieNote.Board.Enum;
 
-public enum MeaningType {
+public enum FactorType {
     ENVIRONMENT
 }
 

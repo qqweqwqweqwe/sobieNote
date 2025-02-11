@@ -36,10 +36,6 @@ public class Board {
     private Category category;
 
     @ManyToOne
-    @JoinColumn(name = "meaning_id")
-    private Meaning meaning;
-
-    @ManyToOne
     @JoinColumn(name = "factor_id")
     private Factor factor;
 

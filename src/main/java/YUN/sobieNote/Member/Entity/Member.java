@@ -1,7 +1,6 @@
 package YUN.sobieNote.Member.Entity;
 
 import YUN.sobieNote.Board.Entity.Board;
-import YUN.sobieNote.Board.Entity.Meaning;
 import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import jakarta.persistence.*;
 import lombok.*;
