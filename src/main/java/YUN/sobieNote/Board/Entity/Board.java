@@ -39,11 +39,11 @@ public class Board {
     @JoinColumn(name = "factor_id")
     private Factor factor;
 
-    @Column(name = "image_url", nullable = true)
+    @Column(name = "image_path", nullable = true)
     private String imageUrl;
 
     @Column(name = "satisfaction")
-    private long satisfactions;
+    private long satisfaction;
 
     @Column(name = "contents")
     private String contents;
@@ -69,7 +69,7 @@ public class Board {
         this.member = member;
         this.emotion = emotion;
         this.category = category;
-        this.satisfactions = boardPostRequest.getSatisfactions();
+        this.satisfaction = boardPostRequest.getSatisfactions();
         this.contents = boardPostRequest.getContents();
         this.imageUrl = "test";
     }
