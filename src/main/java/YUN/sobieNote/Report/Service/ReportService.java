@@ -8,11 +8,13 @@ import YUN.sobieNote.Report.DTO.ReportEmotionsGetResponse;
 import YUN.sobieNote.Report.DTO.ReportFactorsGetResponse;
 import YUN.sobieNote.Report.DTO.ReportGetResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+@Service
 @RequiredArgsConstructor
 public class ReportService {
 

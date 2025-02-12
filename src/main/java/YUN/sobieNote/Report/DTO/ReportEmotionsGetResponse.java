@@ -7,7 +7,6 @@ import lombok.NoArgsConstructor;
 import java.util.List;
 
 @NoArgsConstructor
-@AllArgsConstructor
 @Getter
 public class ReportEmotionsGetResponse extends ReportGetResponse{
 

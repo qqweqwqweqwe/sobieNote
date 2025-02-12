@@ -13,10 +13,10 @@ public interface BoardRepository extends JpaRepository<Board,Integer> {
     List<Board> findByMemberIdAndCreatedAtYearAndCreatedAtMonth(int year, int month,int memberId);
 
     // 작성한 게시글을 가져오는 쿼리
-    @Query("SELECT b FROM Board b WHERE " +
+    @Query(value = "SELECT b FROM Board b WHERE " +
             "(:memberId IS NULL OR b.memberId = :memberId) " +
             "AND (:year IS NULL OR b.createdAtYear= :year) " +
-            "AND (:month IS NULL OR b.createdAtMonth = :month)")
+            "AND (:month IS NULL OR b.createdAtMonth = :month)", nativeQuery = true)
     Optional<List<Board>> findBoards(
             @Param("memberId") Integer memberId,
             @Param("year") Integer year,

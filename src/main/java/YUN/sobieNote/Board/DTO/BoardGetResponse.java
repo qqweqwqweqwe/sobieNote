@@ -40,7 +40,7 @@ public class BoardGetResponse {
             this.emotions = board.getEmotion().getType().name();
             this.categories = board.getCategory().getType().name();
             this.contents = board.getContents();
-            this.satisfactions = board.getSatisfactions();
+            this.satisfactions = board.getSatisfaction();
             this.createdDate = board.getCreatedAt();
 
 
