@@ -17,10 +17,10 @@ public class Category {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment 데이터베이스에서 자동으로 넣어줌
     private int id;
 
-    @Column(name = "name")
+    @Column(name = "name", nullable = false, unique = true)
     private String name;
 
-    @Column(name = "display_name")
+    @Column(name = "display_name",nullable = false, unique = true)
     private String displayName;
 
 }
