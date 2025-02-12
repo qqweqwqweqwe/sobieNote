@@ -65,4 +65,13 @@ public class Board {
     @LastModifiedDate
     protected LocalDateTime updatedAt;
 
+    public Board(BoardPostRequest boardPostRequest, Emotion emotion, Category category, Factor factor,Member member) {
+        this.member = member;
+        this.emotion = emotion;
+        this.category = category;
+        this.factor = factor;
+        this.satisfaction = boardPostRequest.getSatisfactions();
+        this.contents = boardPostRequest.getContents();
+        this.imageUrl = "test";
+    }
 }

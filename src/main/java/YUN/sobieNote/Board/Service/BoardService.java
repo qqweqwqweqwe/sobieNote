@@ -8,11 +8,13 @@ import YUN.sobieNote.Board.Entity.Board;
 
 import YUN.sobieNote.Board.Entity.Category;
 import YUN.sobieNote.Board.Entity.Emotion;
+import YUN.sobieNote.Board.Entity.Factor;
 import YUN.sobieNote.Board.Enum.CategoryType;
 import YUN.sobieNote.Board.Enum.EnumConverter;
 import YUN.sobieNote.Board.Repository.BoardRepository;
 import YUN.sobieNote.Board.Repository.CategoryRepository;
 import YUN.sobieNote.Board.Repository.EmotionRepository;
+import YUN.sobieNote.Board.Repository.FactorRepository;
 import YUN.sobieNote.Member.Entity.Member;
 import YUN.sobieNote.Member.Repository.MemberRepository;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
@@ -31,6 +33,7 @@ public class BoardService {
     private final BoardRepository boardRepository;
     private final CategoryRepository categoryRepository;
     private final EmotionRepository emotionRepository;
+    private final FactorRepository factorRepository;
     private final MemberRepository memberRepository;
 
 
@@ -62,11 +65,17 @@ public class BoardService {
         try {
             Member member = memberRepository.findById(memberId)
                     .orElseThrow(()->new IllegalArgumentException("해당 유저가 존재하지 않습니다. member: "+memberId));
-            Category category = categoryRepository.findByType(EnumConverter.convertStringToCategory(boardPostRequest.getCategories()))
+
+            Category category = categoryRepository.findByDisplayName((boardPostRequest.getCategories()))
                     .orElseThrow(() -> new IllegalArgumentException("해당 카테고리가 존재하지 않습니다. category: " + boardPostRequest.getCategories()));
-            Emotion emotion = emotionRepository.findByType(EnumConverter.convertStringToEmotion(boardPostRequest.getEmotions()))
+
+            Emotion emotion = emotionRepository.findByDisplayName((boardPostRequest.getEmotions()))
                     .orElseThrow(() -> new IllegalArgumentException("해당 감정이 존재하지 않습니다. emotion: " + boardPostRequest.getEmotions()));
-            Board board = new Board(boardPostRequest, emotion, category,member);
+
+            Factor factor = factorRepository.findByDisplayName((boardPostRequest.getEmotions()))
+                    .orElseThrow(() -> new IllegalArgumentException("해당 구매 요인이 존재하지 않습니다. emotion: " + boardPostRequest.getFactors()));
+
+            Board board = new Board(boardPostRequest, emotion, category, factor, member);
             int boardId = boardRepository.save(board).getId();
             return new BoardPostResponse("OK","SUCCESS",boardId);
         }

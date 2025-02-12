@@ -29,7 +29,7 @@ public class ReportService {
             Map<String, Integer> categoryCount = new HashMap<>();
 
             for (Board bo : boards) {
-                String category = bo.getCategory().getType().name();
+                String category = bo.getCategory().getDisplayName();
                 categoryCount.put(category, categoryCount.getOrDefault(category, 0) + 1);
             }
 
@@ -53,7 +53,7 @@ public class ReportService {
             Map<String, Integer> emotionCount = new HashMap<>();
 
             for (Board bo : boards) {
-                String Emotion = bo.getEmotion().getType().name();
+                String Emotion = bo.getEmotion().getDisplayName();
                 emotionCount.put(Emotion, emotionCount.getOrDefault(Emotion, 0) + 1);
             }
 
@@ -77,7 +77,7 @@ public class ReportService {
             Map<String, Integer> factorsCount = new HashMap<>();
 
             for (Board bo : boards) {
-                String factor = bo.getFactor().getType().name();
+                String factor = bo.getFactor().getDisplayName();
                 factorsCount.put(factor, factorsCount.getOrDefault(factor, 0) + 1);
             }
 

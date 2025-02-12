@@ -19,7 +19,7 @@ public class SobieNoteApplication {
 	private static final Logger logger = LoggerFactory.getLogger(SobieNoteApplication.class);
 
 	public static void main(String[] args) {
-		ApplicationContext context = SpringApplication.run(SobieNoteApplication.class, args);
+		SpringApplication.run(SobieNoteApplication.class, args);
 
 		// Environment 객체로 application.properties 값 가져오기
 		logger.info("Main Start");
