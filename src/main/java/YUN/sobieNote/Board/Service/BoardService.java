@@ -72,8 +72,8 @@ public class BoardService {
             Emotion emotion = emotionRepository.findByDisplayName((boardPostRequest.getEmotions()))
                     .orElseThrow(() -> new IllegalArgumentException("해당 감정이 존재하지 않습니다. emotion: " + boardPostRequest.getEmotions()));
 
-            Factor factor = factorRepository.findByDisplayName((boardPostRequest.getEmotions()))
-                    .orElseThrow(() -> new IllegalArgumentException("해당 구매 요인이 존재하지 않습니다. emotion: " + boardPostRequest.getFactors()));
+            Factor factor = factorRepository.findByDisplayName((boardPostRequest.getFactors()))
+                    .orElseThrow(() -> new IllegalArgumentException("해당 구매 요인이 존재하지 않습니다. factor: " + boardPostRequest.getFactors()));
 
             Board board = new Board(boardPostRequest, emotion, category, factor, member);
             int boardId = boardRepository.save(board).getId();

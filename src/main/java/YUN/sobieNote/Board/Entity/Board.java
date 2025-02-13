@@ -8,6 +8,7 @@ import lombok.*;
 import org.hibernate.annotations.Formula;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
 import java.time.LocalDateTime;
 
@@ -16,6 +17,7 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class) // db에 적용하기 전에 콜백
 @Table(name = "boards")
 public class Board {
 

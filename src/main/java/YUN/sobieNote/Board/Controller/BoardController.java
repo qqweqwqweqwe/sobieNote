@@ -33,7 +33,6 @@ public class BoardController {
             @PathVariable int boardId
     ){
         try {
-
             Board board =boardService.getPostById(boardId);
             BoardGetResponse boardGetResponse = new BoardGetResponse(board, "OK", "성공");
             return ResponseEntity.ok()
