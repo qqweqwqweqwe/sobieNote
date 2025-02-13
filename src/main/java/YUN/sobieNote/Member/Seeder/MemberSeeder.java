@@ -29,9 +29,16 @@ public class MemberSeeder {
     public void initMembers() {
 
         try {
-            MemberRole memberRole = memberRoleRepository.save(new MemberRole(0, "USER"));
 
-            AuthProvider authProvider = authProviderRepository.save(new AuthProvider(0, "KAKAO"));
+            MemberRole memberRole = memberRoleRepository.save(MemberRole.builder()
+                    .role("USER")
+                    .build()
+            );
+
+            AuthProvider authProvider = authProviderRepository.save(AuthProvider.builder()
+                    .authProvider("KAKAO")
+                    .build()
+            );
 
             // 빌더 패턴 쓰는 이유
             Member member = Member.builder()
