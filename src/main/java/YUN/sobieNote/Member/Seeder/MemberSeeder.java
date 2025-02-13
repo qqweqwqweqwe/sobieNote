@@ -15,6 +15,7 @@ import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
+import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -28,19 +29,17 @@ public class MemberSeeder {
     @Transactional
     public void initMembers() {
 
-        try {
 
+        try {
             MemberRole memberRole = memberRoleRepository.save(MemberRole.builder()
                     .role("USER")
-                    .build()
-            );
+                    .build());
 
             AuthProvider authProvider = authProviderRepository.save(AuthProvider.builder()
                     .authProvider("KAKAO")
                     .build()
             );
 
-            // 빌더 패턴 쓰는 이유
             Member member = Member.builder()
                     .id(0)
                     .name("테스트")
@@ -52,8 +51,9 @@ public class MemberSeeder {
             memberRepository.save(member);
         }
         catch (Exception e){
-
+            // 어쩔수 없다 일단 이렇게 ㄱ
         }
+
     }
 
 }
