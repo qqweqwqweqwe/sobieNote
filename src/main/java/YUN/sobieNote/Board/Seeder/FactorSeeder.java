@@ -22,13 +22,13 @@ public class FactorSeeder {
     public void initFactors() {
 
         List<String> factorNames = List.of(
-                "환경보호","효율증가","습관개선","호기심충족","취향디깅",
-                "자기계발","몸건강","단순구매","기분전환","소속감"
+                "ENVIRONMENTAL_PROTECTION", "EFFICIENCY_INCREASE", "HABIT_IMPROVEMENT", "CURIOSITY_SATISFACTION", "PREFERENCE_DIGGING",
+                "SELF_DEVELOPMENT", "PHYSICAL_HEALTH", "SIMPLE_PURCHASE", "MOOD_BOOST", "SENSE_OF_BELONGING"
         );
 
         List<String> factorDisplayNames = List.of(
-                "ENVIRONMENTAL_PROTECTION", "EFFICIENCY_INCREASE", "HABIT_IMPROVEMENT", "CURIOSITY_SATISFACTION", "PREFERENCE_DIGGING",
-                "SELF_DEVELOPMENT", "PHYSICAL_HEALTH", "SIMPLE_PURCHASE", "MOOD_BOOST", "SENSE_OF_BELONGING"
+                "환경보호","효율증가","습관개선","호기심충족","취향디깅",
+                "자기계발","몸건강","단순구매","기분전환","소속감"
         );
 
         for (int i = 0; i < factorNames.size(); i++) {
