@@ -36,7 +36,10 @@ public class FactorSeeder {
             String factorDisplayName = factorDisplayNames.get(i);
 
             if (!factorRepository.existsByName(factorName)) { // 중복 방지
-                Factor factor = new Factor(0,factorName,factorDisplayName); // "음식" -> "FOOD"
+                Factor factor = Factor.builder()
+                        .name(factorName)
+                        .displayName(factorDisplayName)
+                        .build();
                 factorRepository.save(factor);
             }
         }
