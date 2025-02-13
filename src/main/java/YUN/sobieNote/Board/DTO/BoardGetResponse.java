@@ -37,9 +37,10 @@ public class BoardGetResponse {
         private String contents;
 
         public Data(Board board) {
-            this.emotions = board.getEmotion().getName();
-            this.categories = board.getCategory().getName();
+            this.emotions = board.getEmotion().getDisplayName();
+            this.categories = board.getCategory().getDisplayName();
             this.contents = board.getContents();
+            this.factors = board.getFactor().getDisplayName();
             this.satisfactions = board.getSatisfaction();
             this.createdDate = board.getCreatedAt();
 
