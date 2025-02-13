@@ -29,12 +29,13 @@ public class Member {
     @Column(nullable = false) // 고유(unique) 및 Not Null 설정
     private String email;
 
+    // 외래키는 Joincolumn
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "role_id")
+    @JoinColumn(name = "role_id", referencedColumnName = "id")
     private MemberRole memberRole;
 
     @OneToOne
-    @PrimaryKeyJoinColumn(name = "auth_provider_id")
+    @JoinColumn(name = "auth_provider_id", referencedColumnName = "id")
     private AuthProvider authProvider;
 
     @Column(name = "created_at", updatable = false) // 열 이름을 지정하고 수정 불가능
@@ -55,5 +56,8 @@ public class Member {
         this.authProvider = authProvider;
         this.memberRole = memberRole;
 
+    }
+
+    public Member(int i, String 연준, String mail, MemberRole memberRole, AuthProvider authProvider) {
     }
 }

@@ -16,7 +16,7 @@ public class MemberRole {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment 데이터베이스에서 자동으로 넣어줌
     private int id;
 
-    @Column(nullable = true)
+    @Column(name = "role", nullable = false, unique = true)
     private String role;
 
 
