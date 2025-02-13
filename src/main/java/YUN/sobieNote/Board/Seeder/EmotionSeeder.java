@@ -37,7 +37,7 @@ public class EmotionSeeder {
             String emotionDisplayName = emotionDisplayNames.get(i);
 
             if (!emotionRepository.existsByName(emotionName)) { // 중복 방지
-                Emotion emotion = new Emotion(0, emotionName, emotionDisplayName); // "음식" -> "FOOD"
+                Emotion emotion = Emotion. // "음식" -> "FOOD"
                 emotionRepository.save(emotion);
             }
         }

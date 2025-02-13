@@ -2,6 +2,11 @@ package YUN.sobieNote.Member.Entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -9,6 +14,7 @@ import lombok.*;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class) // db에 적용하기 전에 콜백
 @Table(name = "member_roles")
 public class MemberRole {
 
@@ -18,6 +24,14 @@ public class MemberRole {
 
     @Column(name = "role", nullable = false, unique = true)
     private String role;
+
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", insertable = false)
+    @LastModifiedDate
+    protected LocalDateTime updatedAt;
 
 
 }

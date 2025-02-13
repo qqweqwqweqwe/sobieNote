@@ -3,12 +3,19 @@ package YUN.sobieNote.Board.Entity;
 import YUN.sobieNote.Board.Enum.EmotionType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "emotions")
 public class Emotion {
 
@@ -21,6 +28,15 @@ public class Emotion {
 
     @Column(name = "display_name" ,nullable = false, unique = true)
     private String displayName;
+
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", insertable = false)
+    @LastModifiedDate
+    protected LocalDateTime updatedAt;
+
 
 
 }

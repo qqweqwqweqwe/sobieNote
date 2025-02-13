@@ -7,12 +7,18 @@ import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
+@EntityListeners(AuditingEntityListener.class)
 @Table(name = "factors")
 public class Factor {
 
@@ -25,5 +31,14 @@ public class Factor {
 
     @Column(name = "display_name", nullable = false, unique = true)
     private String displayName;
+
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", insertable = false)
+    @LastModifiedDate
+    protected LocalDateTime updatedAt;
+
 
 }

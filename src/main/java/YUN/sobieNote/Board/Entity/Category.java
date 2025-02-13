@@ -3,6 +3,11 @@ package YUN.sobieNote.Board.Entity;
 import YUN.sobieNote.Board.Enum.CategoryType;
 import jakarta.persistence.*;
 import lombok.*;
+import org.springframework.data.annotation.CreatedDate;
+import org.springframework.data.annotation.LastModifiedDate;
+import org.springframework.data.jpa.domain.support.AuditingEntityListener;
+
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -11,6 +16,7 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "categories")
+@EntityListeners(AuditingEntityListener.class)
 public class Category {
 
     @Id
@@ -22,5 +28,14 @@ public class Category {
 
     @Column(name = "display_name",nullable = false, unique = true)
     private String displayName;
+
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDateTime createdAt;
+
+    @Column(name = "updated_at", insertable = false)
+    @LastModifiedDate
+    protected LocalDateTime updatedAt;
+
 
 }

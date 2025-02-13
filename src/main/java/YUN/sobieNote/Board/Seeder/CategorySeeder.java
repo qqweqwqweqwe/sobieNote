@@ -35,7 +35,10 @@ public class CategorySeeder {
             String categoryDisplayName = categoryDisplayNames.get(i);
 
             if (!categoryRepository.existsByName(categoryName)) { // 중복 방지
-                Category category = new Category(0,categoryName,categoryDisplayName); // "음식" -> "FOOD"
+                Category category = Category.builder()
+                        .name(categoryName)
+                        .displayName(categoryDisplayName)
+                        .build();
                 categoryRepository.save(category);
             }
         }

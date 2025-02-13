@@ -50,9 +50,6 @@ public class Board {
     @Column(name = "contents")
     private String contents;
 
-    @Column(name = "created_at")
-    @CreatedDate
-    private LocalDateTime createdAt;
 
     // 가상 컬럼 생성
     @Formula("YEAR(created_at)") // DB의 YEAR(created_at) 값 저장
@@ -62,6 +59,9 @@ public class Board {
     @Formula("MONTH(created_at)") // DB의 MONTH(created_at) 값 저장
     private int createdAtMonth;
 
+    @Column(name = "created_at")
+    @CreatedDate
+    private LocalDateTime createdAt;
 
     @Column(name = "updated_at", insertable = false)
     @LastModifiedDate

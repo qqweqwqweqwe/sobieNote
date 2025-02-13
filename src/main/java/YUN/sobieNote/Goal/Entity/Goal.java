@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @Entity
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "goals")
 @EntityListeners(AuditingEntityListener.class)
+@Table(name = "goals")
 public class Goal {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto increment 데이터베이스에서 자동으로 넣어줌
