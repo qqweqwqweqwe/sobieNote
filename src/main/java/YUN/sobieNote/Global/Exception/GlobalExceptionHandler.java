@@ -2,6 +2,8 @@ package YUN.sobieNote.Global.Exception;
 import YUN.sobieNote.Global.DTO.ApiResponse;
 import YUN.sobieNote.Member.Exception.NotValidatedValueException;
 import jakarta.persistence.EntityNotFoundException;
+import jdk.jshell.spi.ExecutionControl;
+import org.apache.logging.log4j.util.InternalException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -22,6 +24,15 @@ public class GlobalExceptionHandler {
                 .status(HttpStatus.BAD_REQUEST)
                 .body(new ApiResponse<>("FAIL", ex.getMessage(),null));
     }
+
+    @ExceptionHandler(InternalException.class)
+    public ResponseEntity<ApiResponse> InternalException(InternalException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponse<>("FAIL", ex.getMessage(),null));
+    }
+
 
     // 아이디랑 이메일이 비어있을 때
     @ExceptionHandler(MethodArgumentNotValidException.class)
