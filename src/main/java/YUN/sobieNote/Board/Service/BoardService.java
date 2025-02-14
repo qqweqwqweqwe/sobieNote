@@ -18,6 +18,7 @@ import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
 import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.InternalException;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
@@ -85,40 +86,45 @@ public class BoardService {
     @Transactional
     public BoardPatchResponse updatePost(int boardId, BoardPatchRequest boardPatchRequest){
 
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 게시글을 찾을 수 없습니다. ID: " + boardId));
+        try {
+            Board board = boardRepository.findById(boardId)
+                    .orElseThrow(() -> new EntityNotFoundException("해당 게시글을 찾을 수 없습니다. ID: " + boardId));
 
-        Category category = categoryRepository.findByDisplayName((boardPatchRequest.getCategories()))
-                .orElseThrow(() -> new EntityNotFoundException("해당 카테고리가 존재하지 않습니다. category: " + boardPatchRequest.getCategories()));
+            Category category = categoryRepository.findByDisplayName((boardPatchRequest.getCategories()))
+                    .orElseThrow(() -> new EntityNotFoundException("해당 카테고리가 존재하지 않습니다. category: " + boardPatchRequest.getCategories()));
 
-        Emotion emotion = emotionRepository.findByDisplayName((boardPatchRequest.getEmotions()))
-                .orElseThrow(() -> new EntityNotFoundException("해당 감정이 존재하지 않습니다. emotion: " + boardPatchRequest.getEmotions()));
+            Emotion emotion = emotionRepository.findByDisplayName((boardPatchRequest.getEmotions()))
+                    .orElseThrow(() -> new EntityNotFoundException("해당 감정이 존재하지 않습니다. emotion: " + boardPatchRequest.getEmotions()));
 
-        Factor factor = factorRepository.findByDisplayName((boardPatchRequest.getFactors()))
-                .orElseThrow(() -> new EntityNotFoundException("해당 구매 요인이 존재하지 않습니다. factor: " + boardPatchRequest.getFactors()));
+            Factor factor = factorRepository.findByDisplayName((boardPatchRequest.getFactors()))
+                    .orElseThrow(() -> new EntityNotFoundException("해당 구매 요인이 존재하지 않습니다. factor: " + boardPatchRequest.getFactors()));
 
-        board.setContents(boardPatchRequest.getContents());
-        board.setEmotion(emotion);
-        board.setSatisfaction(boardPatchRequest.getSatisfactions());
-        board.setFactor(factor);
-        board.setCategory(category);
+            board.setContents(boardPatchRequest.getContents());
+            board.setEmotion(emotion);
+            board.setSatisfaction(boardPatchRequest.getSatisfactions());
+            board.setFactor(factor);
+            board.setCategory(category);
 
-        return new BoardPatchResponse(boardId);
+            return new BoardPatchResponse(boardId);
+        }catch (Exception e){
+            throw new InternalException("알 수 없는 에러 발생 e : " + e.getMessage());
+        }
     }
 
-//    public BoardDeleteResponse deletePost(int boardId){
-//
-//        try{
-//
-//            Board board = getPostById(boardId);
-//            boardRepository.delete(board);
-//            return new BoardDeleteResponse("OK","게시글을 삭제하였습니다. ID : " + boardId, null);
-//
-//        }catch (Exception e){
-//            return new BoardDeleteResponse("FAIL",e.getMessage(), null);
-//
-//        }
-//    }
+    public BoardDeleteResponse deletePost(int boardId){
+
+        try {
+            Board board = boardRepository.findById(boardId)
+                    .orElseThrow(() -> new EntityNotFoundException("게시글을 찾을 수 없습니다. ID: " + boardId));
+
+            boardRepository.delete(board);
+
+            return new BoardDeleteResponse(boardId);
+        }catch (Exception e){
+            throw new InternalException("알 수 없는 에러 발생 e : " + e.getMessage());
+        }
+
+    }
 
     public List<String> getImagePaths(int year, int month, int memberId){
 

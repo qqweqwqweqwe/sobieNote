@@ -85,19 +85,14 @@ public class BoardController {
 
     }
 
-//    @DeleteMapping("/posting/{boardId}")
-//    @ResponseBody
-//    public ResponseEntity<BoardDeleteResponse>deletePost(
-//            @PathVariable int boardId
-//            //? 수정된 업로드 아이디?
-//    ){
-//        try{
-//            BoardDeleteResponse boardDeleteResponse = boardService.deletePost(boardId);
-//
-//
-//        }
-//        BoardDeleteResponse boardDeleteResponse = boardService.deletePost(boardId);
-//        return ResponseEntity.ok()
-//                .body(boardDeleteResponse);
-//    }
+    @DeleteMapping("/posting/{boardId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<Integer>>deletePost(
+            @PathVariable int boardId
+    ){
+        BoardDeleteResponse boardDeleteResponse = boardService.deletePost(boardId);
+        ApiResponse<Integer> apiResponse = new ApiResponse<>("OK","Success",boardDeleteResponse.getData());
+        return ResponseEntity.ok()
+                .body(apiResponse);
+    }
 }
