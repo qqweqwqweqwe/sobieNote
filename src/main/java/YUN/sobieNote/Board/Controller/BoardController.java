@@ -4,17 +4,14 @@ package YUN.sobieNote.Board.Controller;
 import YUN.sobieNote.Board.DTO.*;
 import YUN.sobieNote.Board.Entity.Board;
 import YUN.sobieNote.Board.Service.BoardService;
+import YUN.sobieNote.Global.DTO.ApiResponse;
 import YUN.sobieNote.Global.Exception.ErrorResponse;
 import YUN.sobieNote.Member.Entity.Member;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
-
-import java.util.Date;
 
 @Controller
 @RequiredArgsConstructor
@@ -32,14 +29,9 @@ public class BoardController {
     public ResponseEntity<?> getPost(
             @PathVariable int boardId
     ){
-        try {
-            Board board =boardService.getPostById(boardId);
-            BoardGetResponse boardGetResponse = new BoardGetResponse(board, "OK", "성공");
-            return ResponseEntity.ok()
-                    .body(boardGetResponse);
-        }catch (Exception e){
-            return ResponseEntity.badRequest().body(new ErrorResponse(e.getClass().getSimpleName(), e.getMessage()));
-        }
+        BoardGetResponse boardGetResponse = boardService.getPostById(boardId);
+        ApiResponse<BoardGetResponse> apiResponse = new ApiResponse<>("OK", "Success",boardGetResponse);
+        return ResponseEntity.ok(apiResponse);
     }
 
 

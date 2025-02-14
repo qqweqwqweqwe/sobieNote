@@ -18,7 +18,9 @@ import YUN.sobieNote.Board.Repository.FactorRepository;
 import YUN.sobieNote.Member.Entity.Member;
 import YUN.sobieNote.Member.Repository.MemberRepository;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
+import jakarta.persistence.EntityNotFoundException;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -37,9 +39,12 @@ public class BoardService {
     private final MemberRepository memberRepository;
 
 
-    public Board getPostById(int id){
-        return boardRepository.findById(id)
-                .orElseThrow(() -> new IllegalArgumentException("해당 게시글을 찾을 수 없습니다. ID: " + id));
+    public BoardGetResponse getPostById(int id){
+        Board board =  boardRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시글을 찾을 수 없습니다. ID: " + id));
+
+        return new BoardGetResponse(board);
+
     }
 
     public List<Board> getPosts(Integer memberId, Integer year, Integer month){
@@ -84,19 +89,19 @@ public class BoardService {
         }
     }
 
-    public BoardDeleteResponse deletePost(int boardId){
-
-        try{
-
-            Board board = getPostById(boardId);
-            boardRepository.delete(board);
-            return new BoardDeleteResponse("OK","게시글을 삭제하였습니다. ID : " + boardId, null);
-
-        }catch (Exception e){
-            return new BoardDeleteResponse("FAIL",e.getMessage(), null);
-
-        }
-    }
+//    public BoardDeleteResponse deletePost(int boardId){
+//
+//        try{
+//
+//            Board board = getPostById(boardId);
+//            boardRepository.delete(board);
+//            return new BoardDeleteResponse("OK","게시글을 삭제하였습니다. ID : " + boardId, null);
+//
+//        }catch (Exception e){
+//            return new BoardDeleteResponse("FAIL",e.getMessage(), null);
+//
+//        }
+//    }
 
     public List<String> getImagePaths(int year, int month, int memberId){
 
