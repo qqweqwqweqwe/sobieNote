@@ -1,9 +1,6 @@
 package YUN.sobieNote.Board.Service;
 
-import YUN.sobieNote.Board.DTO.BoardDeleteResponse;
-import YUN.sobieNote.Board.DTO.BoardGetResponse;
-import YUN.sobieNote.Board.DTO.BoardPostRequest;
-import YUN.sobieNote.Board.DTO.BoardPostResponse;
+import YUN.sobieNote.Board.DTO.*;
 import YUN.sobieNote.Board.Entity.Board;
 
 import YUN.sobieNote.Board.Entity.Category;
@@ -19,6 +16,7 @@ import YUN.sobieNote.Member.Entity.Member;
 import YUN.sobieNote.Member.Repository.MemberRepository;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
 import jakarta.persistence.EntityNotFoundException;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.data.crossstore.ChangeSetPersister;
 import org.springframework.stereotype.Service;
@@ -82,6 +80,30 @@ public class BoardService {
         Board board = new Board(boardPostRequest, emotion, category, factor, member);
         int boardId = boardRepository.save(board).getId();
         return new BoardPostResponse(boardId);
+    }
+
+    @Transactional
+    public BoardPatchResponse updatePost(int boardId, BoardPatchRequest boardPatchRequest){
+
+        Board board = boardRepository.findById(boardId)
+                .orElseThrow(() -> new EntityNotFoundException("해당 게시글을 찾을 수 없습니다. ID: " + boardId));
+
+        Category category = categoryRepository.findByDisplayName((boardPatchRequest.getCategories()))
+                .orElseThrow(() -> new EntityNotFoundException("해당 카테고리가 존재하지 않습니다. category: " + boardPatchRequest.getCategories()));
+
+        Emotion emotion = emotionRepository.findByDisplayName((boardPatchRequest.getEmotions()))
+                .orElseThrow(() -> new EntityNotFoundException("해당 감정이 존재하지 않습니다. emotion: " + boardPatchRequest.getEmotions()));
+
+        Factor factor = factorRepository.findByDisplayName((boardPatchRequest.getFactors()))
+                .orElseThrow(() -> new EntityNotFoundException("해당 구매 요인이 존재하지 않습니다. factor: " + boardPatchRequest.getFactors()));
+
+        board.setContents(boardPatchRequest.getContents());
+        board.setEmotion(emotion);
+        board.setSatisfaction(boardPatchRequest.getSatisfactions());
+        board.setFactor(factor);
+        board.setCategory(category);
+
+        return new BoardPatchResponse(boardId);
     }
 
 //    public BoardDeleteResponse deletePost(int boardId){

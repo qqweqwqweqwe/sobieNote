@@ -10,11 +10,11 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
-public class BoardPostRequest extends BoardRequest{
+public class BoardPatchRequest extends BoardRequest{
 
     private MultipartFile attachFile;
 
-    public BoardPostRequest(BoardRequest boardRequest, MultipartFile attachFile) {
+    public BoardPatchRequest(BoardRequest boardRequest, MultipartFile attachFile) {
         super(boardRequest);
         this.attachFile = attachFile;
     }

@@ -70,26 +70,18 @@ public class BoardController {
      */
     @PatchMapping("/posting/{boardId}")
     @ResponseBody
-    public ResponseEntity<?>patchPost(
+    public ResponseEntity<ApiResponse<Integer>>patchPost(
             @PathVariable int boardId,
             @RequestPart BoardRequest boardRequest,
             @RequestPart(value = "attachFile", required = false) MultipartFile attachFile
             ){
 
-        try {
-            BoardPostRequest boardPostRequest = new BoardPostRequest(
-                    boardRequest,
-                    attachFile
-            );
-            Member member = boardService.getMemberOfPost(boardId);
+        BoardPatchRequest boardPatchRequest = new BoardPatchRequest(boardRequest,attachFile);
+        BoardPatchResponse boardPatchResponse = boardService.updatePost(boardId,boardPatchRequest);
+        ApiResponse<Integer> apiResponse = new ApiResponse<>("Ok","Success",boardPatchResponse.getData());
 
-            BoardPostResponse boardPostResponse = boardService.uploadPost(boardPostRequest, member.getId());
-            return ResponseEntity.ok()
-                    .body(boardPostResponse);
-        }catch (Exception e){
-            return ResponseEntity.badRequest()
-                    .body(new ErrorResponse(e.getClass().getSimpleName(), e.getMessage()));
-        }
+        return ResponseEntity.ok()
+                .body(apiResponse);
 
     }
 
