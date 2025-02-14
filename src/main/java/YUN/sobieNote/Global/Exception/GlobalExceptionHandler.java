@@ -1,5 +1,7 @@
 package YUN.sobieNote.Global.Exception;
+import YUN.sobieNote.Global.DTO.ApiResponse;
 import YUN.sobieNote.Member.Exception.NotValidatedValueException;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
@@ -13,16 +15,12 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class GlobalExceptionHandler {
 
-    // todo 나중에 데이터베이스 생기면 데이터베이스에서 조회했을 때 없을 경우 에러
-    @ExceptionHandler(NotValidatedValueException.class)
-    public ResponseEntity<ErrorResponse> handleNotValidatedException(NotValidatedValueException ex){
-        ErrorResponse errorResponse = new ErrorResponse(
-                "NotValidatedValueException",
-                "리퀘스트 값이 잘못되었습니다"
-        );
+    @ExceptionHandler(EntityNotFoundException.class)
+    public ResponseEntity<ApiResponse> handleNotValidatedException(EntityNotFoundException ex){
+
         return ResponseEntity
                 .status(HttpStatus.BAD_REQUEST)
-                .body(errorResponse);
+                .body(new ApiResponse<>("FAIL", ex.getMessage(),null));
     }
 
     // 아이디랑 이메일이 비어있을 때
