@@ -12,8 +12,6 @@ import java.util.Date;
 @Getter
 public class BoardPostResponse{
 
-    private String result;
-    private String msg;
     private Integer data;
 
 

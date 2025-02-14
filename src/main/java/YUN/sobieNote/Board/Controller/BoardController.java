@@ -26,7 +26,7 @@ public class BoardController {
      */
     @GetMapping("/posting/{boardId}")
     @ResponseBody
-    public ResponseEntity<?> getPost(
+    public ResponseEntity<ApiResponse<BoardGetResponse>> getPost(
             @PathVariable int boardId
     ){
         BoardGetResponse boardGetResponse = boardService.getPostById(boardId);
@@ -44,23 +44,19 @@ public class BoardController {
      */
     @PostMapping("/posting/{memberId}")
     @ResponseBody
-    public ResponseEntity<?> createPost(
+    public ResponseEntity<ApiResponse<Integer>> createPost(
             @PathVariable int memberId,
             @RequestPart BoardRequest boardRequest,
             @RequestPart(value = "attachFile", required = false) MultipartFile attachFile
             ){
-        try {
             BoardPostRequest boardPostRequest = new BoardPostRequest(
                     boardRequest,
                     attachFile
             );
             BoardPostResponse boardPostResponse = boardService.uploadPost(boardPostRequest,memberId);
+            ApiResponse<Integer> apiResponse = new ApiResponse<Integer>("OK", "Success", boardPostResponse.getData());
             return ResponseEntity.ok()
-                    .body(boardPostResponse);
-        }catch (Exception e){
-            return ResponseEntity.badRequest()
-                    .body(new ErrorResponse(e.getClass().getSimpleName(), e.getMessage()));
-        }
+                    .body(apiResponse);
 
     }
 
