@@ -13,39 +13,22 @@ import java.util.Date;
 @NoArgsConstructor
 public class BoardGetResponse {
 
-    private String result;
-    private String msg;
-    private Data data;
+    private LocalDateTime createdDate;
+    private String emotions;
+    private long satisfactions;
+    private String categories;
+    private String factors;
+    private String contents;
 
-    public BoardGetResponse(Board board, String result, String msg) {
-        this.data = new Data(board);
-        this.result = result;
-        this.msg = msg;
-
+    public BoardGetResponse(Board board) {
+        this.emotions = board.getEmotion().getDisplayName();
+        this.categories = board.getCategory().getDisplayName();
+        this.contents = board.getContents();
+        this.factors = board.getFactor().getDisplayName();
+        this.satisfactions = board.getSatisfaction();
+        this.createdDate = board.getCreatedAt();
     }
 
 
-    @Getter
-    @NoArgsConstructor
-    @AllArgsConstructor
-    public static class Data {
-        private LocalDateTime createdDate;
-        private String emotions;
-        private long satisfactions;
-        private String categories;
-        private String factors;  // ?
-        private String contents;
-
-        public Data(Board board) {
-            this.emotions = board.getEmotion().getDisplayName();
-            this.categories = board.getCategory().getDisplayName();
-            this.contents = board.getContents();
-            this.factors = board.getFactor().getDisplayName();
-            this.satisfactions = board.getSatisfaction();
-            this.createdDate = board.getCreatedAt();
-
-
-        }
-    }
 
 }
