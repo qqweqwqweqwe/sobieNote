@@ -7,11 +7,12 @@ import lombok.NoArgsConstructor;
 
 import java.time.LocalDateTime;
 import java.util.Date;
+import java.util.List;
 
 
 @Getter
 @NoArgsConstructor
 @AllArgsConstructor
 public class ImageGetResponse {
-    private String imagePath;
+    private List<String> imagePath;
 }

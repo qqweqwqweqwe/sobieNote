@@ -28,11 +28,13 @@ public class ImageService {
     }
 
     public ImageGetResponse getImageByDate(int year, int month, int memberId){
-        Board board = boardRepository.findById(boardId)
-                .orElseThrow(() -> new EntityNotFoundException("해당 게시글을 찾을 수 없습니다. ID: " + boardId));
-
+        List<Board> boards = boardRepository.findBoards(memberId,year,month)
+                .orElseThrow(() -> new EntityNotFoundException("해당 날짜의 게시글이 없습니다. memberId: " + memberId + "year : " + year + "month : " + month ));
         List<String> imageList = new ArrayList<>();
-        imageList.add(board.getImageUrl());
+
+        for (Board board : boards){
+            imageList.add(board.getImageUrl());
+        }
 
         return new ImageGetResponse(imageList);
     }
