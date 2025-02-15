@@ -25,7 +25,6 @@ import java.util.List;
 @RequiredArgsConstructor
 public class ImageController {
 
-    private final BoardService boardService;
     private final ImageService imageService;
 
     /**
@@ -45,17 +44,14 @@ public class ImageController {
     }
 
     @GetMapping("/{year}/{month}/{memberId}")
-    public ImageGetResponseByYearAndMonthAndMember getImageByMember(
+    public ResponseEntity<ApiResponse<ImageGetResponse>> getImageByMember(
             @PathVariable int year,
             @PathVariable int month,
             @PathVariable int memberId
     ){
-        try {
-            List<String> imagePath = boardService.getImagePaths(year,month,memberId);
-            return new ImageGetResponseByYearAndMonthAndMember(imagePath, "OK","Success");
-        }catch (Exception e){
-            return  new ImageGetResponseByYearAndMonthAndMember(null, "FAIL",e.getMessage());
-        }
+        ImageGetResponse imageGetResponse = imageService.getImageByDate(year,month,memberId);
+        return ResponseEntity.ok()
+                .body(new ApiResponse<ImageGetResponse>("OK", "Success", imageGetResponse));
     }
 
 }

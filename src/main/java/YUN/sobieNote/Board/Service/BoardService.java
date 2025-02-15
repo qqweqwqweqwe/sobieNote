@@ -43,7 +43,6 @@ public class BoardService {
                 .orElseThrow(() -> new EntityNotFoundException("해당 게시글을 찾을 수 없습니다. ID: " + id));
 
         return new BoardGetResponse(board);
-
     }
 
     public List<Board> getPosts(Integer memberId, Integer year, Integer month){

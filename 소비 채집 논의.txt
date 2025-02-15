@@ -18,7 +18,7 @@ todo(02-13)
 MockMvc
 rest assured
 이미지 스토리지 필요
-지금 디비 초깃값 Seeder로 관리해주고 있는데 나중에 Flyway나 Liquibase로 마이그레이션
+지금 디비 초깃값 Seeder로 관리해주고 있는데 나중에 Flyway나 Liquibase로 마이그레이션 or(data.sql)
 
 
 
