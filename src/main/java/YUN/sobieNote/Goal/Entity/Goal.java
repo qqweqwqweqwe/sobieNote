@@ -4,6 +4,7 @@ import YUN.sobieNote.Member.Entity.Member;
 import jakarta.persistence.*;
 import lombok.*;
 import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.Formula;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
@@ -34,6 +35,15 @@ public class Goal {
 
     @Column(name = "month", nullable = false)
     private int month;
+
+    // 가상 컬럼 생성
+    @Formula("YEAR(created_at)") // DB의 YEAR(created_at) 값 저장
+    private int createdAtYear;
+
+    // 가상 컬럼 생성
+    @Formula("MONTH(created_at)") // DB의 MONTH(created_at) 값 저장
+    private int createdAtMonth;
+
 
     @Column(name = "created_at", updatable = false) // 열 이름을 지정하고 수정 불가능
     @CreationTimestamp
