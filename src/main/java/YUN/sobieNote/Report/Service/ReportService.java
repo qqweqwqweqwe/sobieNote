@@ -3,10 +3,7 @@ package YUN.sobieNote.Report.Service;
 
 import YUN.sobieNote.Board.Entity.Board;
 import YUN.sobieNote.Board.Service.BoardService;
-import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
-import YUN.sobieNote.Report.DTO.ReportEmotionsGetResponse;
-import YUN.sobieNote.Report.DTO.ReportFactorsGetResponse;
-import YUN.sobieNote.Report.DTO.ReportGetResponse;
+import YUN.sobieNote.Report.DTO.*;
 import lombok.RequiredArgsConstructor;
 import org.apache.logging.log4j.util.InternalException;
 import org.springframework.stereotype.Service;
@@ -86,6 +83,31 @@ public class ReportService {
             return new ReportFactorsGetResponse(null);
         }
     }
+
+
+    public ReportSatisfactionsResponse getReportSatisfactions(int memberId, int year, Integer month){
+        try {
+            List<Board> boards = boardService.getPosts(memberId, year, month);
+            ReportSatisfactionsResponse reportSatisfactionsResponse = new ReportSatisfactionsResponse();
+
+            Map<Integer, Integer> factorsCount = new HashMap<>();
+
+            for (Board bo : boards) {
+                int satisfaction = (int) bo.getSatisfaction();
+                factorsCount.put(satisfaction, factorsCount.getOrDefault(satisfaction, 0) + 1);
+            }
+
+            for (int key : factorsCount.keySet()) {
+                reportSatisfactionsResponse.getData().add(new ReportSatisfactionsResponse.Data(String.valueOf(key), factorsCount.get(key)));
+            }
+
+            return reportSatisfactionsResponse;
+        }catch (Exception e){
+            return new ReportSatisfactionsResponse(null);
+        }
+    }
+
+
 
 
 }

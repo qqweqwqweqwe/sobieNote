@@ -5,6 +5,7 @@ import YUN.sobieNote.Global.DTO.ApiResponse;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
 import YUN.sobieNote.Report.DTO.ReportEmotionsGetResponse;
 import YUN.sobieNote.Report.DTO.ReportFactorsGetResponse;
+import YUN.sobieNote.Report.DTO.ReportSatisfactionsResponse;
 import YUN.sobieNote.Report.Service.ReportService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -123,6 +124,33 @@ public class ReportController {
         ReportFactorsGetResponse reportFactorsGetResponse = reportService.getReportFactors(memberId,year,null);
         return ResponseEntity.ok()
                 .body(new ApiResponse<>("Ok","Success", reportFactorsGetResponse));
+    }
+
+
+    @GetMapping("/satisfactions/{year}/{month}/{memberId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<ReportSatisfactionsResponse>> getSatisfactionsReport(
+            @PathVariable int year,
+            @PathVariable int month,
+            @PathVariable int memberId
+
+    ){
+        ReportSatisfactionsResponse reportSatisfactionsResponse = reportService.getReportSatisfactions(memberId,year,month);
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("Ok","Success", reportSatisfactionsResponse));
+    }
+
+
+    @GetMapping("/satisfactions/{year}/{memberId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<ReportSatisfactionsResponse>> getSatisfactionsReport(
+            @PathVariable int year,
+            @PathVariable int memberId
+
+    ){
+        ReportSatisfactionsResponse reportSatisfactionsResponse = reportService.getReportSatisfactions(memberId,year,null);
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("Ok","Success", reportSatisfactionsResponse));
     }
 
 
