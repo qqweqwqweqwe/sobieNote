@@ -107,6 +107,23 @@ public class ReportService {
         }
     }
 
+    public Integer getReportAverageSatisfactions(int memberId, int year, Integer month){
+        try {
+            List<Board> boards = boardService.getPosts(memberId, year, month);
+            int total = 0;
+            for (Board bo : boards) {
+                int satisfaction = (int) bo.getSatisfaction();
+                total+=satisfaction;
+            }
+
+            return total/boards.size();
+
+        }catch (Exception e){
+            return null;
+        }
+    }
+
+
 
 
 

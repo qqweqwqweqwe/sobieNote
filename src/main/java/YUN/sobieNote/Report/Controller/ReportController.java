@@ -154,4 +154,31 @@ public class ReportController {
     }
 
 
+    @GetMapping("/satisfactions/avg/{year}/{month}/{memberId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<Integer>> getAvgSatisfactionsReport(
+            @PathVariable int year,
+            @PathVariable int month,
+            @PathVariable int memberId
+
+    ){
+        int avg = reportService.getReportAverageSatisfactions(memberId,year,month);
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("Ok","Success", avg));
+    }
+
+
+    @GetMapping("/satisfactions/avg/{year}/{memberId}")
+    @ResponseBody
+    public ResponseEntity<ApiResponse<Integer>> getAvgSatisfactionsReport(
+            @PathVariable int year,
+            @PathVariable int memberId
+
+    ){
+        int avg = reportService.getReportAverageSatisfactions(memberId,year,null);
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("Ok","Success", avg));
+    }
+
+
 }
