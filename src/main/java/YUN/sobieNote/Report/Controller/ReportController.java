@@ -68,41 +68,29 @@ public class ReportController {
      */
     @GetMapping("/emotions/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportEmotionsGetResponse> getEmotionsReport(
+    public ResponseEntity<ApiResponse<ReportEmotionsGetResponse>> getEmotionsReport(
             @PathVariable int year,
             @PathVariable int month,
             @PathVariable int memberId
 
     ){
-        try {
             ReportEmotionsGetResponse reportEmotionsGetResponse = reportService.getReportEmotions(memberId,year,month);
 
             return ResponseEntity.ok()
-                    .body(reportEmotionsGetResponse);
-        }
-        catch (Exception e){
-            return ResponseEntity.ok()
-                    .body(new ReportEmotionsGetResponse(null));
-        }
+                    .body(new ApiResponse<>("OK","Success",reportEmotionsGetResponse));
     }
 
     @GetMapping("/emotions/{year}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportEmotionsGetResponse> getEmotionsReport(
+    public ResponseEntity<ApiResponse<ReportEmotionsGetResponse>> getEmotionsReport(
             @PathVariable int year,
             @PathVariable int memberId
 
     ){
-        try {
-            ReportEmotionsGetResponse reportEmotionsGetResponse = reportService.getReportEmotions(memberId,year,null);
+        ReportEmotionsGetResponse reportEmotionsGetResponse = reportService.getReportEmotions(memberId,year,null);
 
-            return ResponseEntity.ok()
-                    .body(reportEmotionsGetResponse);
-        }
-        catch (Exception e){
-            return ResponseEntity.ok()
-                    .body(new ReportEmotionsGetResponse( null));
-        }
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("OK","Success",reportEmotionsGetResponse));
     }
 
     /**
@@ -114,40 +102,27 @@ public class ReportController {
      */
     @GetMapping("/factors/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportFactorsGetResponse> getFactorsReport(
+    public ResponseEntity<ApiResponse<ReportFactorsGetResponse>> getFactorsReport(
             @PathVariable int year,
             @PathVariable int month,
             @PathVariable int memberId
 
     ){
-        try {
-            ReportFactorsGetResponse reportFactorsGetResponse = reportService.getReportFactors(memberId,year,month);
-
-            return ResponseEntity.ok()
-                    .body(reportFactorsGetResponse);
-        }
-        catch (Exception e){
-            return ResponseEntity.ok()
-                    .body(new ReportFactorsGetResponse(null));
-        }
+        ReportFactorsGetResponse reportFactorsGetResponse = reportService.getReportFactors(memberId,year,month);
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("Ok","Success", reportFactorsGetResponse));
     }
 
     @GetMapping("/factors/{year}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportFactorsGetResponse> getFactorsReport(
+    public ResponseEntity<ApiResponse<ReportFactorsGetResponse>> getFactorsReport(
             @PathVariable int year,
             @PathVariable int memberId
 
     ){
-        try {
-            ReportFactorsGetResponse reportFactorsGetResponse = reportService.getReportFactors(memberId,year,null);
-            return ResponseEntity.ok()
-                    .body(reportFactorsGetResponse);
-        }
-        catch (Exception e){
-            return ResponseEntity.ok()
-                    .body(new ReportFactorsGetResponse(null));
-        }
+        ReportFactorsGetResponse reportFactorsGetResponse = reportService.getReportFactors(memberId,year,null);
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("Ok","Success", reportFactorsGetResponse));
     }
 
 
