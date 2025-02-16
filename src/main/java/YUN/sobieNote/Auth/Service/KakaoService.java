@@ -78,6 +78,4 @@ public class KakaoService {
         return kakaoGetUserInfoResponse;
     }
 
-
-
 }

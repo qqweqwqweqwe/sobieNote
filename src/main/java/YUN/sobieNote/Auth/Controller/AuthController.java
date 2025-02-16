@@ -29,6 +29,7 @@ public class AuthController {
     @GetMapping("/kakao/login/callback")
     public ResponseEntity<?> callback(
             @RequestParam("code") String code){
+        System.out.println(code);
 
         try {
             String token = kakaoService.getAccessTokenFromCode(code);

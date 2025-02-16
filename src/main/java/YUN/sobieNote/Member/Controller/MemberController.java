@@ -1,11 +1,16 @@
 package YUN.sobieNote.Member.Controller;
 
 import YUN.sobieNote.Auth.Service.JwtTokenProvider;
+import YUN.sobieNote.Auth.Service.KakaoService;
 import YUN.sobieNote.Global.Exception.ErrorResponse;
 import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import YUN.sobieNote.Member.DTO.MemberLoginResponse;
+import YUN.sobieNote.Member.Repository.MemberRepository;
+import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -13,12 +18,22 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import java.io.IOException;
+
 @RequiredArgsConstructor
 @Controller
 @RequestMapping("/member")
 public class MemberController {
 
     private final JwtTokenProvider jwtTokenProvider;
+
+    @Value("${kakao.redirect_uri}")
+    private String KAKAO_LOGIN_REDIRECT_URI;
+
+    @Value("${kakao.rest_api_key}")
+    private String KAKAO_REST_API_KEY;
+
 
     @PostMapping("/login")
     @ResponseBody
@@ -51,4 +66,14 @@ public class MemberController {
                     .body(new ErrorResponse("INTERNAL_SERVER_ERROR", "예상치 못한 에러가 발생하였습니다"));
         }
     }
+
+    @PostMapping("/login/kakao")
+    public ResponseEntity<?> kakaoLogin(HttpServletResponse response) throws IOException {
+        String kakaoAuthUrl  ="https://kauth.kakao.com/oauth/authorize?client_id="+ KAKAO_REST_API_KEY + "&redirect_uri=" + KAKAO_LOGIN_REDIRECT_URI;
+        response.sendRedirect(kakaoAuthUrl);
+        return ResponseEntity.ok().build();
+
+    }
+
+
 }
