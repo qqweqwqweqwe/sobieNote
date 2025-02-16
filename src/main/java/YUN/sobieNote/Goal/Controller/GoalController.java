@@ -1,6 +1,7 @@
 package YUN.sobieNote.Goal.Controller;
 
 
+import YUN.sobieNote.Global.DTO.ApiResponse;
 import YUN.sobieNote.Goal.DTO.GoalGetResponse;
 import YUN.sobieNote.Goal.DTO.GoalPostRequest;
 import YUN.sobieNote.Goal.DTO.GoalPostResponse;
@@ -17,17 +18,12 @@ public class GoalController {
 
     private final GoalService goalService;
     @GetMapping("/{memberId}")
-    public ResponseEntity<GoalGetResponse> getGoal(
+    public ResponseEntity<ApiResponse<GoalGetResponse>> getGoal(
             @PathVariable int memberId
     ){
-        try {
             GoalGetResponse goalGetResponse = goalService.getGoalByMemberId(memberId);
             return ResponseEntity.ok()
-                    .body(goalGetResponse);
-        } catch (Exception e) {
-            return  ResponseEntity.badRequest()
-                    .body(new GoalGetResponse(null,"FAIL", e.getMessage()));
-        }
+                    .body(new ApiResponse<>("OK","Success",goalGetResponse));
     }
 
     @PostMapping("/{memberId}")

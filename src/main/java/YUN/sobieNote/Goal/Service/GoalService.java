@@ -4,6 +4,7 @@ import YUN.sobieNote.Goal.DTO.GoalGetResponse;
 import YUN.sobieNote.Goal.DTO.GoalPostResponse;
 import YUN.sobieNote.Goal.Entity.Goal;
 import YUN.sobieNote.Goal.Repository.GoalRepository;
+import jakarta.persistence.EntityNotFoundException;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -16,9 +17,9 @@ public class GoalService {
 
     public GoalGetResponse getGoalByMemberId(int memberId){
         Goal goal = goalRepository.findByMemberId(memberId)
-                .orElseThrow(()-> new IllegalArgumentException("해당 유저의 목표를 찾을 수 없습니다 memberId: " +memberId ));
+                .orElseThrow(()-> new EntityNotFoundException("해당 유저의 목표를 찾을 수 없습니다 memberId: " +memberId ));
 
-        return new GoalGetResponse(goal);
+        return new GoalGetResponse(goal.getContents());
 
     }
 
