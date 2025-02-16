@@ -27,19 +27,17 @@ public class GoalController {
     }
 
     @PostMapping("/{memberId}")
-    public ResponseEntity<GoalPostResponse> modifyGoal(
+    public ResponseEntity<ApiResponse<GoalPostResponse>> modifyGoal(
             @PathVariable int memberId,
             @RequestBody GoalPostRequest goalPostRequest
             ){
 
-        try {
-            GoalPostResponse goalPostResponse = goalService.updateGoalByMemberId(memberId, goalPostRequest.getMission());
-            return ResponseEntity.ok()
-                    .body(goalPostResponse);
-        }catch (Exception e){
-            return ResponseEntity.badRequest()
-                    .body(new GoalPostResponse(null,"FAIL",memberId));
-        }
+        System.out.println("dasd");
+        System.out.println(goalPostRequest.getMission());
+        GoalPostResponse goalPostResponse = goalService.updateGoalByMemberId(memberId, goalPostRequest.getMission());
+
+        return ResponseEntity.ok()
+                .body(new ApiResponse<GoalPostResponse>("OK", "Success", goalPostResponse));
 
     }
 
