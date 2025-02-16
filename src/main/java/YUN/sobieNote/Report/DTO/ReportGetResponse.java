@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Getter
@@ -13,11 +14,8 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ReportGetResponse {
-
-    private String result;
-    private String msg;
-    private List<Data> data;
-
+    // 명시적으로 생성해주어야함
+    private List<Data> data = new ArrayList<>();  // ✅ 자동 초기화
 
     @NoArgsConstructor
     @AllArgsConstructor

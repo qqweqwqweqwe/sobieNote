@@ -8,6 +8,7 @@ import YUN.sobieNote.Report.DTO.ReportEmotionsGetResponse;
 import YUN.sobieNote.Report.DTO.ReportFactorsGetResponse;
 import YUN.sobieNote.Report.DTO.ReportGetResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.logging.log4j.util.InternalException;
 import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
@@ -25,7 +26,6 @@ public class ReportService {
         try {
             List<Board> boards = boardService.getPosts(memberId, year, month);
             ReportCategoryGetResponse reportCategoryGetResponse = new ReportCategoryGetResponse();
-
             Map<String, Integer> categoryCount = new HashMap<>();
 
             for (Board bo : boards) {
@@ -37,11 +37,9 @@ public class ReportService {
                 reportCategoryGetResponse.getData().add(new ReportGetResponse.Data(key, categoryCount.get(key)));
             }
 
-            reportCategoryGetResponse.setMsg("Success");
-            reportCategoryGetResponse.setResult("OK");
             return reportCategoryGetResponse;
         }catch (Exception e){
-            return new ReportCategoryGetResponse("FAIL", "조회에 실패하였습니다 member Id : " + memberId + "error : " + e.getMessage(),null);
+            throw new InternalException(e.getMessage());
         }
     }
 
@@ -61,11 +59,9 @@ public class ReportService {
                 reportEmotionsGetResponse.getData().add(new ReportGetResponse.Data(key, emotionCount.get(key)));
             }
 
-            reportEmotionsGetResponse.setMsg("Success");
-            reportEmotionsGetResponse.setResult("OK");
             return reportEmotionsGetResponse;
         }catch (Exception e){
-            return new ReportEmotionsGetResponse("FAIL", "조회에 실패하였습니다 member Id : " + memberId + "error : " + e.getMessage(),null);
+            return new ReportEmotionsGetResponse(null);
         }
     }
 
@@ -85,11 +81,9 @@ public class ReportService {
                 reportFactorsGetResponse.getData().add(new ReportGetResponse.Data(key, factorsCount.get(key)));
             }
 
-            reportFactorsGetResponse.setMsg("Success");
-            reportFactorsGetResponse.setResult("OK");
             return reportFactorsGetResponse;
         }catch (Exception e){
-            return new ReportFactorsGetResponse("FAIL", "조회에 실패하였습니다 member Id : " + memberId + "error : " + e.getMessage(),null);
+            return new ReportFactorsGetResponse(null);
         }
     }
 

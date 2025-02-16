@@ -8,10 +8,7 @@ import YUN.sobieNote.Board.Entity.Emotion;
 import YUN.sobieNote.Board.Entity.Factor;
 import YUN.sobieNote.Board.Enum.CategoryType;
 import YUN.sobieNote.Board.Enum.EnumConverter;
-import YUN.sobieNote.Board.Repository.BoardRepository;
-import YUN.sobieNote.Board.Repository.CategoryRepository;
-import YUN.sobieNote.Board.Repository.EmotionRepository;
-import YUN.sobieNote.Board.Repository.FactorRepository;
+import YUN.sobieNote.Board.Repository.*;
 import YUN.sobieNote.Member.Entity.Member;
 import YUN.sobieNote.Member.Repository.MemberRepository;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
@@ -36,7 +33,7 @@ public class BoardService {
     private final EmotionRepository emotionRepository;
     private final FactorRepository factorRepository;
     private final MemberRepository memberRepository;
-
+    private final BoardRepositoryImpl boardRepositoryImpl;
 
     public BoardGetResponse getPostById(int id){
         Board board =  boardRepository.findById(id)
@@ -46,8 +43,7 @@ public class BoardService {
     }
 
     public List<Board> getPosts(Integer memberId, Integer year, Integer month){
-        List<Board> boards = boardRepository.findBoards(memberId,year,month)
-                .orElse(Collections.emptyList()); // optinal이 비어있으면 빈 리스트 반환
+        List<Board> boards = boardRepositoryImpl.findBoards(memberId,year,month);
 
         if(boards.isEmpty()){
             throw new NoSuchElementException("게시글이 존재하지 않습니다");

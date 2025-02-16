@@ -11,7 +11,7 @@ import java.util.List;
 public class ReportEmotionsGetResponse extends ReportGetResponse{
 
 
-    public ReportEmotionsGetResponse(String result, String msg, List<Data> data) {
-        super(result,msg,data);
+    public ReportEmotionsGetResponse(List<Data> data) {
+        super(data);
     }
 }

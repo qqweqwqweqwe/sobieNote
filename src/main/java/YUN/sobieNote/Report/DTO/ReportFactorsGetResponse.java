@@ -11,7 +11,7 @@ import java.util.List;
 public class ReportFactorsGetResponse extends ReportGetResponse {
 
 
-    public ReportFactorsGetResponse(String result, String msg, List<Data> data) {
-        super(result,msg,data);
+    public ReportFactorsGetResponse(List<Data> data) {
+        super(data);
     }
 }

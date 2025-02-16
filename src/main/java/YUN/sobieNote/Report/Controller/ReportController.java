@@ -1,6 +1,7 @@
 package YUN.sobieNote.Report.Controller;
 
 import YUN.sobieNote.Board.Service.BoardService;
+import YUN.sobieNote.Global.DTO.ApiResponse;
 import YUN.sobieNote.Report.DTO.ReportCategoryGetResponse;
 import YUN.sobieNote.Report.DTO.ReportEmotionsGetResponse;
 import YUN.sobieNote.Report.DTO.ReportFactorsGetResponse;
@@ -30,42 +31,29 @@ public class ReportController {
      */
     @GetMapping("/categories/{year}/{month}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportCategoryGetResponse> getCategoryReport(
+    public ResponseEntity<ApiResponse<ReportCategoryGetResponse>> getCategoryReport(
             @PathVariable int year,
             @PathVariable int month,
             @PathVariable int memberId
 
     ){
-        // todo 이거 예외처리 나중에 전역 예외 처리로 바꿀거
-        try {
-            ReportCategoryGetResponse reportCategoryGetResponse = reportService.getReportCategory(memberId,year,month);
+        ReportCategoryGetResponse reportCategoryGetResponse = reportService.getReportCategory(memberId,year,month);
 
-            return ResponseEntity.ok()
-                    .body(reportCategoryGetResponse);
-        }
-        catch (Exception e){
-            return ResponseEntity.ok()
-                    .body(new ReportCategoryGetResponse("FAIL", "조회실패", null));
-        }
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("OK","Success",reportCategoryGetResponse));
     }
 
     @GetMapping("/categories/{year}/{memberId}")
     @ResponseBody
-    public ResponseEntity<ReportCategoryGetResponse> getCategoryReport(
+    public ResponseEntity<ApiResponse<ReportCategoryGetResponse>> getCategoryReport(
             @PathVariable int year,
             @PathVariable int memberId
 
     ){
-        try {
-            ReportCategoryGetResponse reportCategoryGetResponse = reportService.getReportCategory(memberId,year,null);
+        ReportCategoryGetResponse reportCategoryGetResponse = reportService.getReportCategory(memberId,year,null);
 
-            return ResponseEntity.ok()
-                    .body(reportCategoryGetResponse);
-        }
-        catch (Exception e){
-            return ResponseEntity.ok()
-                    .body(new ReportCategoryGetResponse("FAIL", "조회실패", null));
-        }
+        return ResponseEntity.ok()
+                .body(new ApiResponse<>("OK","Success",reportCategoryGetResponse));
 
     }
 
@@ -94,7 +82,7 @@ public class ReportController {
         }
         catch (Exception e){
             return ResponseEntity.ok()
-                    .body(new ReportEmotionsGetResponse("FAIL", "조회실패", null));
+                    .body(new ReportEmotionsGetResponse(null));
         }
     }
 
@@ -113,7 +101,7 @@ public class ReportController {
         }
         catch (Exception e){
             return ResponseEntity.ok()
-                    .body(new ReportEmotionsGetResponse("FAIL", "조회실패", null));
+                    .body(new ReportEmotionsGetResponse( null));
         }
     }
 
@@ -140,7 +128,7 @@ public class ReportController {
         }
         catch (Exception e){
             return ResponseEntity.ok()
-                    .body(new ReportFactorsGetResponse("FAIL", "조회실패", null));
+                    .body(new ReportFactorsGetResponse(null));
         }
     }
 
@@ -158,7 +146,7 @@ public class ReportController {
         }
         catch (Exception e){
             return ResponseEntity.ok()
-                    .body(new ReportFactorsGetResponse("FAIL", "조회실패", null));
+                    .body(new ReportFactorsGetResponse(null));
         }
     }
 

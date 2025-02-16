@@ -11,11 +11,13 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.core.env.Environment;
 import org.springframework.data.jpa.repository.config.EnableJpaAuditing;
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @SpringBootApplication
 @Configuration
 @EnableJpaAuditing
+@EnableJpaRepositories
 public class SobieNoteApplication {
 
 	private static final Logger logger = LoggerFactory.getLogger(SobieNoteApplication.class);
