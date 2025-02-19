@@ -59,23 +59,29 @@ public class BoardService {
         return board.getMember();
     }
 
+    @Transactional
     public BoardPostResponse uploadPost(BoardPostRequest boardPostRequest,int memberId){
 
-        Member member = memberRepository.findById(memberId)
-                .orElseThrow(()->new EntityNotFoundException("해당 유저가 존재하지 않습니다. member: "+memberId));
+        try {
+            Member member = memberRepository.findById(memberId)
+                    .orElseThrow(() -> new EntityNotFoundException("해당 유저가 존재하지 않습니다. member: " + memberId));
 
-        Category category = categoryRepository.findByDisplayName((boardPostRequest.getCategories()))
-                .orElseThrow(() -> new EntityNotFoundException("해당 카테고리가 존재하지 않습니다. category: " + boardPostRequest.getCategories()));
+            Category category = categoryRepository.findByDisplayName((boardPostRequest.getCategories()))
+                    .orElseThrow(() -> new EntityNotFoundException("해당 카테고리가 존재하지 않습니다. category: " + boardPostRequest.getCategories()));
 
-        Emotion emotion = emotionRepository.findByDisplayName((boardPostRequest.getEmotions()))
-                .orElseThrow(() -> new EntityNotFoundException("해당 감정이 존재하지 않습니다. emotion: " + boardPostRequest.getEmotions()));
+            Emotion emotion = emotionRepository.findByDisplayName((boardPostRequest.getEmotions()))
+                    .orElseThrow(() -> new EntityNotFoundException("해당 감정이 존재하지 않습니다. emotion: " + boardPostRequest.getEmotions()));
 
-        Factor factor = factorRepository.findByDisplayName((boardPostRequest.getFactors()))
-                .orElseThrow(() -> new EntityNotFoundException("해당 구매 요인이 존재하지 않습니다. factor: " + boardPostRequest.getFactors()));
+            Factor factor = factorRepository.findByDisplayName((boardPostRequest.getFactors()))
+                    .orElseThrow(() -> new EntityNotFoundException("해당 구매 요인이 존재하지 않습니다. factor: " + boardPostRequest.getFactors()));
 
-        Board board = new Board(boardPostRequest, emotion, category, factor, member);
-        int boardId = boardRepository.save(board).getId();
-        return new BoardPostResponse(boardId);
+            Board board = new Board(boardPostRequest, emotion, category, factor, member);
+            int boardId = boardRepository.save(board).getId();
+            return new BoardPostResponse(boardId);
+        }
+        catch (Exception e){
+            throw new InternalException("서버 내부 에러가 발생하였습니다" + e.getMessage());
+        }
     }
 
     @Transactional
