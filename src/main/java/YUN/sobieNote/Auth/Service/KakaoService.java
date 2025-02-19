@@ -2,6 +2,7 @@ package YUN.sobieNote.Auth.Service;
 
 import YUN.sobieNote.Auth.DTO.KakaoGetTokenResponse;
 import YUN.sobieNote.Auth.DTO.KakaoGetUserInfoResponse;
+import YUN.sobieNote.Global.Exception.CustomException;
 import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import YUN.sobieNote.Member.Entity.Member;
 import YUN.sobieNote.Member.Repository.MemberRepository;
@@ -52,12 +53,12 @@ public class KakaoService {
                     .bodyToMono(KakaoGetTokenResponse.class) // 응답값을 매핑해주는 것 같은데?
                     .block();   // await
             token = kakaoGetTokenResponse.getAccessToken();
+            return token;
 
         }catch (Exception e){
-            System.out.println("카카오로부터 토큰을 가져오는데 실패하였습니다 에러 내용 : " +e);
+            throw new CustomException.ExternalAPIException("카카오 인증 코드로 부터 토큰을 가져오는 것을 실패하였습니다" + e.getMessage());
         }
 
-        return token;
     }
 
     /**
