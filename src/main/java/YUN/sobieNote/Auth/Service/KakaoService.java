@@ -68,15 +68,20 @@ public class KakaoService {
      */
     public KakaoGetUserInfoResponse getUserInfoFromToken(String token){
 
-        KakaoGetUserInfoResponse kakaoGetUserInfoResponse = WebClient.create("https://kapi.kakao.com/v2/user/me")
-                .get()
-                .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
-                .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
-                .retrieve()   // 전송
-                .bodyToMono(KakaoGetUserInfoResponse.class) // 응답값을 매핑해주는 것 같은데?
-                .block();   // await
+        try {
+            KakaoGetUserInfoResponse kakaoGetUserInfoResponse = WebClient.create("https://kapi.kakao.com/v2/user/me")
+                    .get()
+                    .header(HttpHeaders.AUTHORIZATION, "Bearer " + token)
+                    .header(HttpHeaders.CONTENT_TYPE, HttpHeaderValues.APPLICATION_X_WWW_FORM_URLENCODED.toString())
+                    .retrieve()   // 전송
+                    .bodyToMono(KakaoGetUserInfoResponse.class) // 응답값을 매핑해주는 것 같은데?
+                    .block();   // await
 
-        return kakaoGetUserInfoResponse;
+            return kakaoGetUserInfoResponse;
+        }catch (Exception e){
+            throw new CustomException.ExternalAPIException("카카오로 부터 유저정보를 가져오는 것을 실패하였습니다" + e.getMessage());
+
+        }
     }
 
 }
