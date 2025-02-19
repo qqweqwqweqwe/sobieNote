@@ -3,9 +3,12 @@ package YUN.sobieNote.Auth.Controller;
 
 import YUN.sobieNote.Auth.DTO.KakaoGetUserInfoResponse;
 import YUN.sobieNote.Auth.Service.KakaoService;
+import YUN.sobieNote.Global.DTO.ApiResponse;
 import YUN.sobieNote.Member.DTO.MemberLoginRequest;
 import YUN.sobieNote.Member.DTO.MemberLoginResponse;
 import YUN.sobieNote.Member.Entity.Member;
+import YUN.sobieNote.Member.Enum.AUTH_PROVIDER;
+import YUN.sobieNote.Member.Enum.MEMBER_ROLE;
 import YUN.sobieNote.Member.Exception.MemberLoginErrorResponse;
 import YUN.sobieNote.Member.Repository.MemberRepository;
 import YUN.sobieNote.Member.Service.MemberService;
@@ -27,30 +30,24 @@ public class AuthController {
 
 
     @GetMapping("/kakao/login/callback")
-    public ResponseEntity<?> callback(
+    public ResponseEntity<ApiResponse<MemberLoginResponse>> callback(
             @RequestParam("code") String code){
         System.out.println(code);
 
-        try {
-            String token = kakaoService.getAccessTokenFromCode(code);
+        String token = kakaoService.getAccessTokenFromCode(code);
 
-            KakaoGetUserInfoResponse kakaoGetUserInfoResponse = kakaoService.getUserInfoFromToken(token);
+        KakaoGetUserInfoResponse kakaoGetUserInfoResponse = kakaoService.getUserInfoFromToken(token);
 
-            String name = kakaoGetUserInfoResponse.getKakaoAccount().getProfile().getNickName();
-            String email = kakaoGetUserInfoResponse.getKakaoAccount().getEmail();
-            MemberLoginRequest memberLoginRequest = new MemberLoginRequest(name, email);
-            int authProviderId = 1;   // 카카오
-            int memberRoleId = 1;     // 일반 유저
-            Member member = memberService.findOrSaveMember(memberLoginRequest, authProviderId, memberRoleId);
+        String name = kakaoGetUserInfoResponse.getKakaoAccount().getProfile().getNickName();
+        String email = kakaoGetUserInfoResponse.getKakaoAccount().getEmail();
 
-            return ResponseEntity.ok()
-                    .body(new MemberLoginResponse(member.getId()));
+        MemberLoginRequest memberLoginRequest = new MemberLoginRequest(name, email);
+        int authProviderId = AUTH_PROVIDER.KAKAO.getId();
+        int memberRoleId = MEMBER_ROLE.USER.getId();
+        MemberLoginResponse memberLoginResponse = memberService.findOrSaveMember(memberLoginRequest, authProviderId, memberRoleId);
 
-        }
-        catch (Exception e){
-            return ResponseEntity.badRequest()
-                    .body(new MemberLoginErrorResponse(e.getClass().getSimpleName(), e.getMessage()));
-        }
+        return ResponseEntity.ok(new ApiResponse<MemberLoginResponse>("OK","Success", memberLoginResponse));
+
     }
 
 }
