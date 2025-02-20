@@ -33,6 +33,24 @@ public class GlobalExceptionHandler {
                 .body(new ApiResponse<>("FAIL", ex.getMessage(),null));
     }
 
+    @ExceptionHandler(CustomException.ExternalAPIException.class)
+    public ResponseEntity<ApiResponse> ExternalAPIException(CustomException.ExternalAPIException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponse<>("FAIL", ex.getMessage(),null));
+    }
+
+    @ExceptionHandler(IllegalArgumentException.class)
+    public ResponseEntity<ApiResponse> IllegalArgumentException(IllegalArgumentException ex){
+
+        return ResponseEntity
+                .status(HttpStatus.BAD_REQUEST)
+                .body(new ApiResponse<>("FAIL", ex.getMessage(),null));
+    }
+
+
+
 
     // 아이디랑 이메일이 비어있을 때
     @ExceptionHandler(MethodArgumentNotValidException.class)
