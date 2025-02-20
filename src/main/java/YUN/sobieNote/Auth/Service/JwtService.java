@@ -3,27 +3,22 @@ package YUN.sobieNote.Auth.Service;
 import YUN.sobieNote.Config.DotenvConfig;
 import io.github.cdimascio.dotenv.Dotenv;
 import io.jsonwebtoken.*;
-import io.jsonwebtoken.io.Decoders;
-import io.jsonwebtoken.io.Encoder;
-import io.jsonwebtoken.io.Encoders;
-import io.jsonwebtoken.security.Keys;
+import org.springframework.security.core.parameters.P;
 import org.springframework.stereotype.Service;
 
 import javax.crypto.spec.SecretKeySpec;
-import java.nio.charset.StandardCharsets;
 import java.security.Key;
-import java.util.Base64;
 import java.util.Date;
 
 @Service
-public class JwtTokenProvider {
+public class JwtService {
 
     private final Dotenv dotenv;
     private final int ACCESS_TOKEN_EXPIRATION_TIME;
     private final int REFRESH_TOKEN_EXPIRATION_TIME;
     private final String JWT_SECRET_KEY;
 
-    public JwtTokenProvider(){
+    public JwtService(){
         dotenv = DotenvConfig.getInstance();
         ACCESS_TOKEN_EXPIRATION_TIME = 600000;
         REFRESH_TOKEN_EXPIRATION_TIME = 99999999; //todo 적당한 걸로 바꾸기
@@ -31,18 +26,19 @@ public class JwtTokenProvider {
 
     }
 
-    public String generateAccessToken(String userName){
-        userName = "k0789789"; // 테스트용
-        Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
-        Claims claims = Jwts.claims();
-        claims.put("userName", userName);
-        return Jwts.builder()
-                .setClaims(claims)
-                .setSubject(userName)
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
-                .signWith(key)
-                .compact();
+    public String generateAccessToken(int memberId){
+        try {
+            Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+            return Jwts.builder()
+                    .setSubject(String.valueOf(memberId))
+                    .setIssuedAt(new Date())
+                    .setExpiration(new Date(System.currentTimeMillis() + ACCESS_TOKEN_EXPIRATION_TIME))
+                    .signWith(key)
+                    .compact();
+        }
+        catch (Exception e) {
+            throw new IllegalArgumentException("JWT 생성 중 문제가 발생하였습니다" + e.getMessage());
+        }
     }
 
     public String generateRefreshToken(String userName){
@@ -94,5 +90,18 @@ public class JwtTokenProvider {
 
         return userName;
     }
+
+    public int getMemberIdFromToken(String token){
+        Key key = new SecretKeySpec(JWT_SECRET_KEY.getBytes(), SignatureAlgorithm.HS256.getJcaName());
+        Claims claims = Jwts.parserBuilder()
+                .setSigningKey(key)
+                .build()
+                .parseClaimsJws(token)
+                .getBody();
+
+        return Integer.parseInt(claims.getSubject());
+
+    }
+
 
 }
