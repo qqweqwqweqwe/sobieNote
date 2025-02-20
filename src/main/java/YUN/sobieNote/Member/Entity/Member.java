@@ -32,11 +32,11 @@ public class Member {
     private String email;
 
     // 외래키는 Joincolumn
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "role_id", referencedColumnName = "id")
     private MemberRole memberRole;
 
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name = "auth_provider_id", referencedColumnName = "id")
     private AuthProvider authProvider;
 
@@ -60,6 +60,4 @@ public class Member {
 
     }
 
-    public Member(int i, String 연준, String mail, MemberRole memberRole, AuthProvider authProvider) {
-    }
 }
